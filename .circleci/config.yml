@@ -25,16 +25,16 @@ jobs:
       - image: circleci/node:10-browsers
 
     environment:
-      GITHUB_ORG: https://GH_TOKEN@github.com/angular-buch
+      GITHUB_ORG: https://GH_TOKEN@github.com/book-monkey3
       GITHUB_NAME: The Buildbot
       GITHUB_EMAIL: buildbot@angular2buch.de
-      NAME: api3
+      NAME: api3-build
 
     steps:
       - attach_workspace:
           at: /home/circleci/project
       - run: npm i --silent angular-cli-ghpages@0.5.3
-      - run: npx angular-cli-ghpages --repo "$GITHUB_ORG/$NAME.git" --name "$GITHUB_NAME" --email "$GITHUB_EMAIL" --branch release-build
+      - run: npx angular-cli-ghpages --repo "$GITHUB_ORG/$NAME.git" --name "$GITHUB_NAME" --email "$GITHUB_EMAIL" --branch master
 
 
 workflows:
