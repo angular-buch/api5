@@ -25,7 +25,7 @@ jobs:
       - image: circleci/node:10-browsers
 
     environment:
-      GITHUB_ORG: https://GH_TOKEN@github.com/angular-schule
+      GITHUB_ORG: https://GH_TOKEN@github.com/angular-buch
       GITHUB_NAME: The Buildbot
       GITHUB_EMAIL: buildbot@angular2buch.de
       NAME: api3
