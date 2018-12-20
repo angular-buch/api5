@@ -34,7 +34,7 @@ jobs:
     steps:
       - attach_workspace:
           at: /home/circleci/project
-      - run: npx ngh --repo "$GITHUB_ORG/$NAME.git" --name "$GITHUB_NAME" --email "$GITHUB_EMAIL"
+      - run: npx ngh --repo "$GITHUB_ORG/$NAME.git" --name "$GITHUB_NAME" --email "$GITHUB_EMAIL" --branch release-build
 
 
 workflows:
