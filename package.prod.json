@@ -1,0 +1,26 @@
+{
+  "name": "book-monkey3-public-api-compiled",
+  "version": "0.0.3",
+  "private": true,
+  "scripts": {
+    "start": "node start.js"
+  },
+  "engines": {
+    "node": "6.9"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "errorhandler": "^1.4.3",
+    "express": "^4.14.0",
+    "express-graphql": "^0.6.12",
+    "graphql": "^0.13.2",
+    "graphql-tools": "^2.23.1",
+    "lodash": "^4.17.4",
+    "method-override": "^2.3.6",
+    "morgan": "^1.7.0",
+    "pug": "^2.0.0-beta6",
+    "swagger-ui-express": "2.0.6"
+  }
+}

@@ -1,0 +1,36 @@
+doctype html
+html
+  head
+    title= title
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, minimal-ui')
+    link(rel='stylesheet', href='style.css', media='screen')
+  body.markdown-body
+    //- img(src='images/angular.schule.svg', width='100')
+    h1= title
+    img(src='images/monkey-thinking.svg', width='300')
+    ul
+      li
+        a(href='/books') GET /books
+      li
+        a(href='/book/9783864903571') GET /book/9783864903571
+      li
+        a(href='/graphql/?query={%0A%20 books {%0A%20%20%20 title%0A%20%20%20 isbn%0A%20%20%20 authors {%0A%20%20%20%20%20 name%0A%20%20%20 }%0A%20 }%0A}') GraphQL Sample Query
+    hr
+    strong
+      | Explorable API documentation:&nbsp;
+      a(href='/swagger-ui/') /swagger-ui/
+    br
+    small
+      | GraphiQL Explorer:&nbsp;
+      a(href='/graphql/') /graphql/
+    br
+    small
+      | OpenAPI Specification:&nbsp;
+      a(href='/swagger.json') /swagger.json
+    br
+    small
+      | Uptime: #{time}
+    hr
+    |   &copy;&nbsp;
+    a(href='https://angular-buch.com') Angular-Buch Team

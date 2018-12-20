@@ -1,0 +1,53 @@
+version: 2
+
+jobs:
+
+  build:
+    docker:
+      - image: circleci/node:10-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: npm i --silent
+      - run: npm i --silent angular-cli-ghpages@0.5.3
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: npm run grunt
+      - persist_to_workspace:
+          root: /home/circleci/project
+          paths:
+            - dist
+
+  deploy:
+    docker:
+      - image: circleci/node:10-browsers
+
+    environment:
+      GITHUB_ORG: https://GH_TOKEN@github.com/angular-schule
+      GITHUB_NAME: The Buildbot
+      GITHUB_EMAIL: buildbot@angular2buch.de
+      NAME: api3
+
+    steps:
+      - attach_workspace:
+          at: /home/circleci/project
+      - run: npx ngh --repo "$GITHUB_ORG/$NAME.git" --name "$GITHUB_NAME" --email "$GITHUB_EMAIL"
+
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      # The deploy job will only run on the filtered branches and
+      # require the build job to be successful before it starts
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - release

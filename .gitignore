@@ -1,0 +1,6 @@
+.tscache
+.baseDir.ts
+dist
+node_modules
+tscommand-*.tmp.txt
+/.DS_Store
