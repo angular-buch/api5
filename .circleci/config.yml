@@ -10,7 +10,6 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: npm i --silent
-      - run: npm i --silent angular-cli-ghpages@0.5.3
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
@@ -34,7 +33,8 @@ jobs:
     steps:
       - attach_workspace:
           at: /home/circleci/project
-      - run: npx ngh --repo "$GITHUB_ORG/$NAME.git" --name "$GITHUB_NAME" --email "$GITHUB_EMAIL" --branch release-build
+      - run: npm i --silent angular-cli-ghpages@0.5.3
+      - run: npx angular-cli-ghpages --repo "$GITHUB_ORG/$NAME.git" --name "$GITHUB_NAME" --email "$GITHUB_EMAIL" --branch release-build
 
 
 workflows:
