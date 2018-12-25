@@ -6,10 +6,16 @@ import { SomeBooks } from './model/some-books';
 
 export class BooksStore {
 
-  private books: Book[];
+  // will exist as long as the service runs
+  private booksCache = SomeBooks.get();
+  private isSecure = false;
 
-  constructor() {
-    this.books = SomeBooks.get();
+  get books(): Book[] {
+    return this.isSecure ? [...this.booksCache, SomeBooks.secureBook] : this.booksCache
+  }
+
+  setSecure(isSecure = false) {
+    this.isSecure = isSecure;
   }
 
   getAll(): Book[] {
@@ -60,7 +66,12 @@ export class BooksStore {
   }
 
   create(book: Book) {
-    this.books.push(book);
+    if (book.isbn === SomeBooks.secureBook.isbn) {
+      // do nothing if someone wants to manipulate the secure book
+      return;
+    }
+
+    this.booksCache.push(book);
   };
 
   update(book: Book) {
@@ -70,10 +81,16 @@ export class BooksStore {
 
   delete(isbn: string) {
     isbn = BookFactory.normalizeIsbn(isbn);
-    return this.books = this.books.filter(book => book.isbn !== isbn);
+
+    if (isbn === SomeBooks.secureBook.isbn) {
+      // do nothing if someone wants to manipulate the secure book
+      return this.booksCache;
+    }
+
+    return this.booksCache = this.books.filter(book => book.isbn !== isbn);
   };
 
   reset() {
-    this.books = SomeBooks.get();
+    this.booksCache = SomeBooks.get();
   };
 }

@@ -30,11 +30,14 @@ export class BooksRoute {
 
   // GET /books
   getAll(req: Request, res: Response, next: NextFunction) {
+    this.store.setSecure(res.locals.authorized);
+
     res.json(this.store.getAll());
     next();
   };
 
   getAllBySearch(req: Request, res: Response, next: NextFunction) {
+    this.store.setSecure(res.locals.authorized);
 
     let searchTerm = req.params.search;
 
@@ -43,6 +46,7 @@ export class BooksRoute {
   };
 
   getByISBN(req: Request, res: Response, next: NextFunction) {
+    this.store.setSecure(res.locals.authorized);
 
     let isbn = req.params.isbn;
     let book = this.store.getByIsbn(isbn);
@@ -56,6 +60,7 @@ export class BooksRoute {
   };
 
   checkISBN(req: Request, res: Response, next: NextFunction) {
+    this.store.setSecure(res.locals.authorized);
 
     let isbn = req.params.isbn;
     let bookExist = this.store.isbnExists(isbn);
@@ -65,6 +70,7 @@ export class BooksRoute {
   };
 
   create(req: Request, res: Response, next: NextFunction) {
+    this.store.setSecure(res.locals.authorized);
 
     let bookJson = req.body;
     let isbn = bookJson.isbn;
@@ -85,6 +91,7 @@ export class BooksRoute {
   };
 
   update(req: Request, res: Response, next: NextFunction) {
+    this.store.setSecure(res.locals.authorized);
 
     let bookJson = req.body;
     let isbn = bookJson.isbn;
@@ -109,6 +116,7 @@ export class BooksRoute {
   };
 
   delete(req: Request, res: Response, next: NextFunction) {
+    this.store.setSecure(res.locals.authorized);
 
     let isbn = req.params.isbn;
     this.store.delete(isbn);
@@ -129,6 +137,7 @@ export class BooksRoute {
   };
 
   rate(req: Request, res: Response, next: NextFunction) {
+    this.store.setSecure(res.locals.authorized);
 
     let isbn = req.params.isbn;
     let rating = req.body.rating;

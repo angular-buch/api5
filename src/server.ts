@@ -11,6 +11,7 @@ import { IndexRoute } from './routes/index';
 import { BooksStore } from './books-store';
 import { BooksRoute } from './routes/books';
 import { GraphQLRoute } from './graphql/routes';
+import { fakeBearerMiddleware } from './fake-bearer-middleware';
 
 var fs = require('fs');
 
@@ -146,8 +147,8 @@ export class Server {
     // use router middleware
     this.app.use('/book', booksRouter);
     this.app.use('/books', booksRouter);
-    //this.app.use('/secure/book', this.jwtMiddleware, booksRouter);
-    //this.app.use('/secure/books', this.jwtMiddleware, booksRouter);
+    this.app.use('/secure/book', fakeBearerMiddleware, booksRouter);
+    this.app.use('/secure/books', fakeBearerMiddleware, booksRouter);
     this.app.use('/graphql', graphQLRouter);
     this.app.use(router);
   }

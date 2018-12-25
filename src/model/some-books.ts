@@ -8,6 +8,17 @@ export class SomeBooks {
     ];
   }
 
+  public static secureBook: Book =
+    new Book(
+      '1234567890',
+      'Geheimes Buch',
+      ['Anonymous'],
+      new Date('2019-01-01T00:00:00.000Z'),
+      `Geheimes Buch`,
+      1,
+      [new Thumbnail('https://upload.wikimedia.org/wikipedia/commons/a/a6/Anonymous_emblem.svg', 'Front Cover')],
+      `Dieses geheime Buch ist nur über die sichere Ressource verfügbar.`
+    );
 
   public static englishBooks: Book[] = [
     new Book(

@@ -29,8 +29,7 @@ npm install
 npm start
 ```
 
-Open __http://localhost:3000/__ in your brower.
-
+Open __http://localhost:3000/__ in your browser.
 
 # License
 

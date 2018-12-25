@@ -6,7 +6,7 @@
 			"type": "node",
 			"request": "launch",
 			"program": "${workspaceRoot}/dist/start.js",
-			"stopOnEntry": true,
+			"stopOnEntry": false,
 			"args": [],
 			"cwd": "${workspaceRoot}",
 			"runtimeArgs": [
