@@ -3,7 +3,7 @@
     "info": {
         "version": "0.0.3",
         "title": "BookMonkey 3 API",
-        "description": "**DEMO**\n\nThis is a simple backend for serving books."
+        "description": "**DEMO**\n\nThis is a demo backend for serving books. All data is erased after some inactivity."
     },
     "basePath": "/",
     "schemes": [
@@ -18,7 +18,11 @@
     "tags": [
         {
             "name": "book",
-            "description": "BookMonkey 3 books with thumbnails"
+            "description": "BookMonkey 3 books"
+        },
+        {
+            "name": "secure/book",
+            "description": "Secure: BookMonkey 3 books. SECURED via pseudo bearer auth. Please type in for authorization: 'Bearer 1234567890' (without quotes)"
         }
     ],
     "paths": {
@@ -63,38 +67,6 @@
                         }
                     }
                 }
-            }
-        },
-        "/secure/books": {
-            "get": {
-                "tags": [
-                    "book"
-                ],
-                "summary": "Get all books - SECURED via pseudo bearer auth",
-                "description": "Please type in here:\nBearer 123456789",
-                "responses": {
-                    "200": {
-                        "description": "List of all books",
-                        "schema": {
-                            "title": "Books",
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Book"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Unexpected Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/RestError"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ]
             }
         },
         "/books/search/{searchTerm}": {
@@ -361,14 +333,367 @@
                     }
                 }
             }
+        },
+        "/secure/books": {
+            "get": {
+                "tags": [
+                    "secure/book"
+                ],
+                "summary": "Get all books (secured)",
+                "responses": {
+                    "200": {
+                        "description": "List of all books (secured)",
+                        "schema": {
+                            "title": "Books",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Book"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Unexpected Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "secure/book"
+                ],
+                "summary": "Resets store to initial state (secured)",
+                "responses": {
+                    "200": {
+                        "description": "All data is now on initial state (secured)"
+                    },
+                    "500": {
+                        "description": "Unexpected Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/secure/books/search/{searchTerm}": {
+            "get": {
+                "tags": [
+                    "secure/book"
+                ],
+                "summary": "Get all books matching the given search term (case insensitive). The properties isbn, title, authors, published (interpreted as ISO string), subtitle and description are evaluated for a match. (secured)",
+                "parameters": [
+                    {
+                        "name": "searchTerm",
+                        "in": "path",
+                        "type": "string",
+                        "description": "search term (treated case insensitive)",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of all books matching the give search term",
+                        "schema": {
+                            "title": "Books",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Book"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Unexpected Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/secure/book": {
+            "post": {
+                "tags": [
+                    "secure/book"
+                ],
+                "summary": "Creates a new book (secured)",
+                "parameters": [
+                    {
+                        "name": "book",
+                        "in": "body",
+                        "description": "A new book to be stored",
+                        "schema": {
+                            "$ref": "#/definitions/Book"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Book was created"
+                    },
+                    "400": {
+                        "description": "Invalid data",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    },
+                    "409": {
+                        "description": "Book does already exist",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    },
+                    "500": {
+                        "description": "Unexpected Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/secure/book/{isbn}": {
+            "get": {
+                "tags": [
+                    "secure/book"
+                ],
+                "summary": "Returns a single book by ISBN (secured)",
+                "parameters": [
+                    {
+                        "name": "isbn",
+                        "in": "path",
+                        "type": "string",
+                        "description": "ISBN of the book",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the book with the requested ISBN",
+                        "schema": {
+                            "$ref": "#/definitions/Book"
+                        }
+                    },
+                    "404": {
+                        "description": "Book does not exist",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    },
+                    "500": {
+                        "description": "Unexpected Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "secure/book"
+                ],
+                "summary": "Updates an existing book (secured)",
+                "description": "Requires a full book entry, ISBN in query and body must match",
+                "parameters": [
+                    {
+                        "name": "isbn",
+                        "in": "path",
+                        "description": "ISBN of the book to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "book",
+                        "in": "body",
+                        "description": "An existing book to update",
+                        "schema": {
+                            "$ref": "#/definitions/Book"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Book was updated"
+                    },
+                    "400": {
+                        "description": "Invalid data",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    },
+                    "404": {
+                        "description": "Book does not exist",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    },
+                    "500": {
+                        "description": "Unexpected Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "secure/book"
+                ],
+                "summary": "Deletes a book (secured)",
+                "parameters": [
+                    {
+                        "name": "isbn",
+                        "in": "path",
+                        "description": "ISBN of the book to delete",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Book was deleted or does not exist"
+                    },
+                    "500": {
+                        "description": "Unexpected Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/secure/book/{isbn}/check": {
+            "get": {
+                "tags": [
+                    "secure/book"
+                ],
+                "summary": "Returns whether ISBN exists or not (secured)",
+                "parameters": [
+                    {
+                        "name": "isbn",
+                        "in": "path",
+                        "type": "string",
+                        "description": "ISBN of the book",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns whether the ISBN exists in the database or not (boolean)"
+                    },
+                    "500": {
+                        "description": "Unexpected Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/secure/book/{isbn}/rate": {
+            "post": {
+                "tags": [
+                    "secure/book"
+                ],
+                "summary": "Updates rating of a book to a given value (secured)",
+                "parameters": [
+                    {
+                        "name": "isbn",
+                        "in": "path",
+                        "type": "string",
+                        "description": "ISBN of the book",
+                        "required": true
+                    },
+                    {
+                        "name": "rating",
+                        "in": "body",
+                        "description": "The new rating value for the given book",
+                        "schema": {
+                            "$ref": "#/definitions/Rating"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rating has been updated"
+                    },
+                    "400": {
+                        "description": "Invalid data",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    },
+                    "404": {
+                        "description": "Book does not exist",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    },
+                    "500": {
+                        "description": "Unexpected Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
         }
     },
     "securityDefinitions": {
-      "ApiKeyAuth": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "Authorization"
-      }
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+        }
     },
     "definitions": {
         "Book": {

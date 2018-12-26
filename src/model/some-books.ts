@@ -14,10 +14,10 @@ export class SomeBooks {
       'Geheimes Buch',
       ['Anonymous'],
       new Date('2019-01-01T00:00:00.000Z'),
-      `Geheimes Buch`,
+      `Das geheime Buch ist nur über die sichere Ressource verfügbar.`,
       1,
       [new Thumbnail('https://upload.wikimedia.org/wikipedia/commons/a/a6/Anonymous_emblem.svg', 'Front Cover')],
-      `Dieses geheime Buch ist nur über die sichere Ressource verfügbar.`
+      `Wenn Sie diesen Text lesen können, haben Sie den Authorization-Header korrekt gesendet - denn dieses geheime Buch ist nur über die sichere Ressource verfügbar. Es kann weder neu angelegt, noch verändert oder gelöscht werden.`
     );
 
   public static englishBooks: Book[] = [

@@ -115,11 +115,7 @@ export class Server {
 
     this.app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(
       swaggerJson,
-      {
-        requestInterceptor: function(request) {
-          window.alert(request);
-      }
-      }
+      false // show explorer
     ));
   }
 
