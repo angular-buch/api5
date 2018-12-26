@@ -82,12 +82,10 @@ export class BooksStore {
   delete(isbn: string) {
     isbn = BookFactory.normalizeIsbn(isbn);
 
-    if (isbn === SomeBooks.secureBook.isbn) {
-      // do nothing if someone wants to manipulate the secure book
-      return this.booksCache;
+    // do nothing if someone wants to manipulate the secure book
+    if (isbn !== SomeBooks.secureBook.isbn) {
+      this.booksCache = this.booksCache.filter(book => book.isbn !== isbn);
     }
-
-    return this.booksCache = this.books.filter(book => book.isbn !== isbn);
   };
 
   reset() {
