@@ -10,7 +10,7 @@ The API is fully described via swagger. Explore it [here](http://api3.angular-bu
 
 # The book
 
-[![Book](public/images/angular_auflage2.jpg)](https://angular-buch.com/)
+[![Book](public/images/angular_auflage2_small.jpg)](https://angular-buch.com/)
 
 This backend is used to explain HTTP communication with Angular.  
 Read more about Angular in our book. Visit [angular-buch.com](https://angular-buch.com/) for more information (German only).
