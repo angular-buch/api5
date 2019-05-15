@@ -5,7 +5,7 @@ export class BookFactory {
 
   static empty(): Book {
     let defaultThumbnail = new Thumbnail(
-      'https://api3.angular-buch.com/placeholder_book.svg',
+      'https://api3.angular-buch.com/images/placeholder_book.svg',
       'Kein Vorschaubild verfügbar');
 
     return new Book('', '', [''], new Date(), '', 3, [defaultThumbnail], '');
