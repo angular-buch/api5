@@ -25,7 +25,12 @@ export class SomeBooks {
       new Date('2019-04-30T00:00:00.000Z'),
       'Grundlagen, fortgeschrittene Themen und Best Practices – mit NativeScript und NgRx',
       5,
-      [new Thumbnail('https://api3.angular-buch.com/images/angular_auflage2.jpg', 'Front Cover')],
+      [
+        new Thumbnail('https://api3.angular-buch.com/images/angular_auflage2.jpg', 'Front Cover'),
+        new Thumbnail('https://api3.angular-buch.com/images/angular_auflage2_back.jpg', 'Rückseite'),
+        new Thumbnail('https://api3.angular-buch.com/images/angular_auflage2_update-note.jpg', 'Update Hinweis'),
+        new Thumbnail('https://api3.angular-buch.com/images/angular_auflage2_book+ebook.jpg', 'Als gebundenes Buch und E-Book verfügbar')
+      ],
       `Die Autoren führen Sie mit einem anspruchsvollen Beispielprojekt durch die Welt von Angular. Lernen Sie Schritt für Schritt, wie Sie strukturierte und modulare Single-Page-Anwendungen entwickeln. Nach der erfolgreichen ersten Auflage wurde dieses Buch grundlegend aktualisiert und erweitert:
       Durchgängig aktualisiert auf Angular 7 und neuere Versionen, Redux mit Reactive Extensions for Angular (NgRx), Ausführliches Kapitel zu RxJS und Observables, Server-Side Rendering mit Angular Universal, HTTP-Interceptoren, Kompakter Schnelleinstieg in Angular mit Stackblitz.
       Praktisch: Der Programmcode zu jeder einzelnen Entwicklungsphase ist auf GitHub verfügbar. So können Sie alle Schritte gut nachvollziehen und auch Teile überspringen.
@@ -41,7 +46,10 @@ export class SomeBooks {
       new Date('2017-05-22T12:00:00.000Z'),
       'Grundlagen, fortgeschrittene Techniken und Best Practices mit TypeScript - ab Angular 4, inklusive NativeScript und Redux',
       3,
-      [new Thumbnail('https://api3.angular-buch.com/images/angular_auflage1.jpg', 'Front Cover')],
+      [
+        new Thumbnail('https://api3.angular-buch.com/images/angular_auflage1.jpg', 'Front Cover'),
+        new Thumbnail('https://api3.angular-buch.com/images/angular_auflage1_back.jpg', 'Rückseite')
+      ],
       `Mit Angular setzen Sie auf ein modernes und modulares Web-Framework. Dieses Buch stellt Ihnen die Bausteine von Angular, viele Best Practices und die notwendigen Werkzeuge vor. Beginnen Sie Ihren Einstieg in die Welt von Angular mit einer praxisnahen Einführung.
       Jedes Thema wird zunächst theoretisch behandelt und anschließend anhand einer durchgehenden Beispielanwendung (https://ng-buch.de/app) demonstriert.
       Meistern Sie die komponentenorientierte Webentwicklung und lernen Sie zusätzlich einen Weg zur Erstellung mobiler Apps (NativeScript) kennen. Mit der Redux-Architektur beherrschen Sie auch komplexe Anwendungen.
