@@ -1,15 +1,16 @@
 import { NextFunction, Request, Response, Router } from "express";
 import * as _ from 'lodash';
 
-import { BookFactory } from '../model/book-factory';
+import { BookFactory, PLACEHOLER_IMG } from '../model/book-factory';
 import { BooksStore } from '../books-store';
 import { HTTP } from './http';
+import { NotificationService } from "../notification-service";
 
 export class BooksRoute {
 
-  public static create(router: Router, bookStore: BooksStore) {
+  public static create(router: Router, bookStore: BooksStore, notificationService: NotificationService) {
 
-    let booksRoute = new BooksRoute(bookStore);
+    let booksRoute = new BooksRoute(bookStore, notificationService);
     let methodsToBind = [
       'getAll', 'getAllBySearch', 'reset', 'create',
       'rate', 'getByISBN', 'checkISBN', 'update', 'delete']
@@ -26,7 +27,10 @@ export class BooksRoute {
     router.delete('/:isbn', booksRoute.delete);
   }
 
-  constructor(private store: BooksStore) {  }
+  constructor(
+    private store: BooksStore,
+    private notificationService: NotificationService
+  ) {  }
 
   // GET /books
   getAll(req: Request, res: Response, next: NextFunction) {
@@ -86,7 +90,20 @@ export class BooksRoute {
     let book = BookFactory.fromJson(bookJson);
     this.store.create(book)
 
-    res.send(HTTP.CREATED);
+    res.sendStatus(HTTP.CREATED);
+
+    // Send notifications if the is a subscription
+    if (this.notificationService.hasSubscriber()) {
+      const notificationPayload = {
+        title: `🆕📕 ${book.title}`,
+        body: `ISBN: ${book.isbn}`,
+        icon: book.thumbnails[0].url || PLACEHOLER_IMG.url,
+        vibrate: [100, 50, 100],
+        data: { url: `${req.headers.origin}/books/${book.isbn}`}
+      };
+      this.notificationService.notifySubscribers(notificationPayload);
+    }
+
     next();
   };
 

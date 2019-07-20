@@ -1,6 +1,6 @@
 {
   "name": "book-monkey3-public-api-compiled",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "node start.js"
@@ -21,6 +21,7 @@
     "method-override": "^2.3.6",
     "morgan": "^1.7.0",
     "pug": "^2.0.0-beta6",
-    "swagger-ui-express": "2.0.6"
+    "swagger-ui-express": "2.0.6",
+    "web-push": "^3.3.5"
   }
 }

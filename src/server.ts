@@ -10,8 +10,10 @@ import methodOverride = require('method-override');
 import { IndexRoute } from './routes/index';
 import { BooksStore } from './books-store';
 import { BooksRoute } from './routes/books';
+import { NotificationsRoute } from './routes/notifications';
 import { GraphQLRoute } from './graphql/routes';
 import { fakeBearerMiddleware } from './fake-bearer-middleware';
+import { NotificationService } from './notification-service';
 
 var fs = require('fs');
 
@@ -129,12 +131,16 @@ export class Server {
   private routes() {
 
     const store = new BooksStore();
+    const notificationService = new NotificationService();
 
     let booksRouter = express.Router();
-    BooksRoute.create(booksRouter, store)
+    BooksRoute.create(booksRouter, store, notificationService)
 
     let graphQLRouter = express.Router();
     GraphQLRoute.create(graphQLRouter, store);
+
+    let notificationsRouter = express.Router();
+    NotificationsRoute.create(notificationsRouter, notificationService)
 
     let router = express.Router();
     IndexRoute.create(router);
@@ -146,6 +152,7 @@ export class Server {
     this.app.use('/secure/book', fakeBearerMiddleware, booksRouter);
     this.app.use('/secure/books', fakeBearerMiddleware, booksRouter);
     this.app.use('/graphql', graphQLRouter);
+    this.app.use('/notifications', notificationsRouter);
     this.app.use(router);
   }
 }
