@@ -8,8 +8,8 @@ export class NotificationsRoute {
 
   public static create(router: Router, notificationService: NotificationService) {
 
-    let notificationsRoute = new NotificationsRoute(notificationService);
-    let methodsToBind = ['requestSubscription']
+    const notificationsRoute = new NotificationsRoute(notificationService);
+    const methodsToBind = ['requestSubscription']
     _.bindAll(notificationsRoute, methodsToBind);
 
     router.post('/', notificationsRoute.requestSubscription);

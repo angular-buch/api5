@@ -133,16 +133,16 @@ export class Server {
     const store = new BooksStore();
     const notificationService = new NotificationService();
 
-    let booksRouter = express.Router();
+    const booksRouter = express.Router();
     BooksRoute.create(booksRouter, store, notificationService)
 
-    let graphQLRouter = express.Router();
+    const graphQLRouter = express.Router();
     GraphQLRoute.create(graphQLRouter, store);
 
-    let notificationsRouter = express.Router();
+    const notificationsRouter = express.Router();
     NotificationsRoute.create(notificationsRouter, notificationService)
 
-    let router = express.Router();
+    const router = express.Router();
     IndexRoute.create(router);
 
 

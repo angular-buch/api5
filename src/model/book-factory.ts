@@ -1,7 +1,7 @@
 import { Thumbnail } from './thumbnail';
 import { Book } from './book';
 
-export const PLACEHOLER_IMG = {
+export const PLACEHOLDER_IMG = {
   url: 'https://api3.angular-buch.com/images/placeholder_book.svg',
   title: 'Kein Vorschaubild verfügbar'
 }
@@ -9,7 +9,7 @@ export const PLACEHOLER_IMG = {
 export class BookFactory {
 
   static empty(): Book {
-    let defaultThumbnail = new Thumbnail(PLACEHOLER_IMG.url, PLACEHOLER_IMG.title);
+    const defaultThumbnail = new Thumbnail(PLACEHOLDER_IMG.url, PLACEHOLDER_IMG.title);
 
     return new Book('', '', [''], new Date(), '', 3, [defaultThumbnail], '');
   }

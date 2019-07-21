@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
-const webpush = require('web-push');
-
+import * as webpush from 'web-push';
 export class NotificationService {
   private subscriptions: PushSubscriptionJSON[] = [];
 
@@ -23,13 +22,11 @@ export class NotificationService {
   }
 
   hasSubscriber(): boolean {
-    return this.subscriptions.length ? true : false;
+    return this.subscriptions.length > 0;
   }
 
   notifySubscribers(payload: NotificationOptions) {
-    for (const subscription of this.subscriptions) {
-      this.notify(payload, subscription);
-    }
+    this.subscriptions.forEach(sub => this.notify(payload, sub));
   }
 
   notify(payload: NotificationOptions, subscription: PushSubscriptionJSON) {
