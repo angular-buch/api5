@@ -115,9 +115,17 @@ export class Server {
       swaggerJson.schemes = 'http'; // fixes JSON schema for localhost
     }
 
+    const options = {
+      explorer: false, // show explorer
+      customCss: `.swagger-ui .information-container {
+        background: url(/images/monkey-thinking.svg) no-repeat scroll right top;
+        background-size: contain;
+      }`
+    }
+
     this.app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(
       swaggerJson,
-      false // show explorer
+      options
     ));
   }
 
