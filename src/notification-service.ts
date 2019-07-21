@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
-import * as webpush from 'web-push';
+import { WebPushError, PushSubscription, sendNotification, setVapidDetails } from 'web-push';
 export class NotificationService {
-  private subscriptions: PushSubscriptionJSON[] = [];
+  private subscriptions: PushSubscription[] = [];
 
   constructor() {
     const vapidKeys = {
@@ -9,14 +9,14 @@ export class NotificationService {
       privateKey: 'D-k70ba0x5ucasrJMfsROWq8Xtt2smbzh98mbXTfhQM'
     }
 
-    webpush.setVapidDetails(
+    setVapidDetails(
       'mailto:team@angular-buch.com',
       vapidKeys.publicKey,
       vapidKeys.privateKey
     );
   }
 
-  addSubscription(subscription: PushSubscriptionJSON) {
+  addSubscription(subscription: PushSubscription) {
     this.subscriptions.push(subscription);
     this.subscriptions = _.uniq(this.subscriptions); // remove duplicate subscriptions if exists
   }
@@ -29,8 +29,8 @@ export class NotificationService {
     this.subscriptions.forEach(sub => this.notify(payload, sub));
   }
 
-  notify(payload: NotificationOptions, subscription: PushSubscriptionJSON) {
-    webpush.sendNotification(subscription, JSON.stringify({ notification: payload }))
-      .catch(error => console.error(error));
+  notify(payload: NotificationOptions, subscription: PushSubscription) {
+    sendNotification(subscription, JSON.stringify({ notification: payload }))
+      .catch((error: WebPushError) => console.error(error));
   }
 }

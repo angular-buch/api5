@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
+import { PushSubscription } from 'web-push';
 import * as _ from 'lodash';
 
 import { NotificationService } from "../notification-service";
@@ -18,7 +19,7 @@ export class NotificationsRoute {
   constructor(private notificationService: NotificationService) { }
 
   requestSubscription(req: Request, res: Response, next: NextFunction) {
-    const notificationRequest: PushSubscriptionJSON = req.body;
+    const notificationRequest: PushSubscription = req.body;
 
     if (!notificationRequest) {
       return res.status(HTTP.BAD_REQUEST).send('Invalid data: Notification Object is mandatory');
