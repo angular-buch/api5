@@ -19,14 +19,15 @@
     "cors": "^2.8.5",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
-    "express-graphql": "^0.6.12",
-    "graphql": "^0.13.2",
-    "graphql-tools": "^2.23.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.4.2",
+    "graphql-tools": "^4.0.5",
     "lodash": "^4.17.15",
-    "method-override": "^2.3.6",
+    "method-override": "^3.0.0",
     "morgan": "^1.9.1",
     "pug": "^2.0.4",
-    "swagger-ui-express": "4.0.7"
+    "swagger-ui-express": "4.0.7",
+    "web-push": "^3.3.5"
   },
   "devDependencies": {
     "@types/body-parser": "1.17.0",
@@ -42,7 +43,6 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-ts": "^6.0.0-beta.22",
     "nodemon": "^1.19.1",
-    "typescript": "^3.5.3",
-    "web-push": "^3.3.5"
+    "typescript": "^3.5.3"
   }
 }
