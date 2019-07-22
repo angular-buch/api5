@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "0.0.3",
+        "version": "0.1.0",
         "title": "BookMonkey 3 API",
         "description": "**DEMO**\n\nThis is a demo backend for serving books. All data is erased after some inactivity."
     },
@@ -23,6 +23,10 @@
         {
             "name": "secure/book",
             "description": "Secure: BookMonkey 3 books. SECURED via pseudo bearer auth. Please type in for authorization: 'Bearer 1234567890' (without quotes)"
+        },
+        {
+            "name": "notifications",
+            "description": "Subscribe to BookMonkey Notifications"
         }
     ],
     "paths": {
@@ -686,6 +690,48 @@
                     }
                 ]
             }
+        },
+        "/notifications": {
+            "post": {
+                "tags": [
+                    "notifications"
+                ],
+                "summary": "Subscribe to notifications, you will receive notifications via web-push after you subscribed to them.",
+                "parameters": [
+                    {
+                        "name": "notification",
+                        "in": "body",
+                        "description": "The Notification Object which contains the credentials for requesting to receive notifications",
+                        "schema": {
+                            "$ref": "#/definitions/Notification"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully subscribed to receive notifications"
+                    },
+                    "400": {
+                        "description": "Invalid data",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    },
+                    "422": {
+                        "description": "Malformed Data",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    },
+                    "500": {
+                        "description": "Unexpected Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/RestError"
+                        }
+                    }
+                }
+            }
         }
     },
     "securityDefinitions": {
@@ -793,6 +839,57 @@
                     "minimum": 1,
                     "maximum": 5,
                     "description": "Rating value for a book from one star (bad) to five stars (great)"
+                }
+            }
+        },
+        "Notification": {
+            "type": "object",
+            "description": "A notifications subscription object (PushSubscriptionJSON), see: https://www.w3.org/TR/push-api/#dom-pushsubscriptionjson",
+            "required": [
+                "endpoint",
+                "keys"
+            ],
+            "properties": {
+                "endpoint": {
+                    "type": "string",
+                    "example": "https://fcm.googleapis.com/fcm/send/cd8hmcY5ais:APA91bFWhjIBUCcArB8u95YUN-BkEvj8NA52BcvzDeeilQL5wB1RwWy-ki_ZDONyL8jPjsGBHM-efuEqj5KDLfUwQRtIMjLx-2L5RwS45_oESHtaJr9k-WxfHr_jJEnX-Qt8McNhw1dN",
+                    "description": "A USVString as defined here https://heycam.github.io/webidl/#idl-USVString"
+                },
+                "expirationTime": {
+                    "type": "string",
+                    "example": "1519129853500",
+                    "description": "A DOMHighResTimeStamp as defined here https://www.w3.org/TR/hr-time-2/#dom-domhighrestimestamp"
+                },
+                "keys": {
+                    "type": "object",
+                    "items": {
+                        "$ref": "#/definitions/Keys"
+                    },
+                    "description": "An Object which contains neccessary keys, see: https://www.w3.org/TR/push-api/#dom-pushencryptionkeyname",
+                    "example": {
+                        "auth": "hsHpa-Fy-wL3IGTfzOuvYw",
+                        "p256dh": "BGu9emiaZez5yWSx66VZLVPmYPtGd4FQG9hxoRcaGJ7qDhEwINS3AvbAWn_brMF08ErsqROyClWXsGCNMPY6PJo"
+                    }
+                }
+            }
+        },
+        "Keys": {
+            "type": "object",
+            "description": "An Object which contains neccessary keys (PushEncryptionKeyName), see https://www.w3.org/TR/push-api/#dom-pushsubscriptionjson-keys",
+            "required": [
+                "auth",
+                "p256dh"
+            ],
+            "properties": {
+                "auth": {
+                    "type": "string",
+                    "example": "hsHpa-Fy-wL3IGTfzOuvYw",
+                    "description": "The auth value is used to retrieve the authentication secret described in RFC8291 (https://tools.ietf.org/html/rfc8291)"
+                },
+                "p256dh": {
+                    "type": "string",
+                    "example": "BGu9emiaZez5yWSx66VZLVPmYPtGd4FQG9hxoRcaGJ7qDhEwINS3AvbAWn_brMF08ErsqROyClWXsGCNMPY6PJo",
+                    "description": "The p256dh value is used to retrieve the P-256 ECDH Diffie-Hellman public key described in RFC8291 (https://tools.ietf.org/html/rfc8291)"
                 }
             }
         },

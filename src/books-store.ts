@@ -28,7 +28,7 @@ export class BooksStore {
   getAllBySearch(searchTerm: string): Book[] {
 
     searchTerm = searchTerm.toLowerCase();
-    let containsSearchTerm = (checked) => ~checked.toLowerCase().indexOf(searchTerm);
+    const containsSearchTerm = (checked) => ~checked.toLowerCase().indexOf(searchTerm);
 
     return _(this.books)
       .filter(b =>
