@@ -6,7 +6,7 @@
     "start": "node start.js"
   },
   "engines": {
-    "node": "6.9"
+    "node": "10.x"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
