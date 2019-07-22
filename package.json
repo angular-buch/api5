@@ -13,9 +13,6 @@
     "start": "node ./dist/start.js",
     "start:dev": "grunt && concurrently \"grunt watch\" \"nodemon\""
   },
-  "engines": {
-    "node": "10.x"
-  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",

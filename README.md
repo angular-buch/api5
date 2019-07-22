@@ -31,6 +31,12 @@ npm start
 
 Open __http://localhost:3000/__ in your browser.
 
+
+## Updating deps
+
+Please take care of the file `package.prod.json`.
+Keep it in sync with you development `package.json`.
+
 # License
 
 Code released under the [MIT license](LICENSE).
