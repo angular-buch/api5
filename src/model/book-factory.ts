@@ -2,7 +2,7 @@ import { Thumbnail } from './thumbnail';
 import { Book } from './book';
 
 export const PLACEHOLDER_IMG = {
-  url: 'https://api3.angular-buch.com/images/placeholder_book.svg',
+  url: 'https://api4.angular-buch.com/images/placeholder_book.svg',
   title: 'Kein Vorschaubild verfügbar'
 }
 

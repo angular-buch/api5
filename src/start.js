@@ -79,5 +79,5 @@ function onListening() {
     ? "pipe " + addr
     : "port " + addr.port;
   // debug("Listening on " + bind);
-  console.log("BookMonkey 3 API server on " + bind);
+  console.log("BookMonkey 4 API server on " + bind);
 }

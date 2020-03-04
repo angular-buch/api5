@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "version": "0.1.0",
-        "title": "BookMonkey 3 API",
+        "title": "BookMonkey 4 API",
         "description": "**DEMO**\n\nThis is a demo backend for serving books. All data is erased after some inactivity."
     },
     "basePath": "/",
@@ -18,11 +18,11 @@
     "tags": [
         {
             "name": "book",
-            "description": "BookMonkey 3 books"
+            "description": "BookMonkey 4 books"
         },
         {
             "name": "secure/book",
-            "description": "Secure: BookMonkey 3 books. SECURED via pseudo bearer auth. Please type in for authorization: 'Bearer 1234567890' (without quotes)"
+            "description": "Secure: BookMonkey 4 books. SECURED via pseudo bearer auth. Please type in for authorization: 'Bearer 1234567890' (without quotes)"
         },
         {
             "name": "notifications",

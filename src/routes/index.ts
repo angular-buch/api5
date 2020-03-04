@@ -44,7 +44,7 @@ export class IndexRoute extends BaseRoute {
    */
   public index(req: Request, res: Response, next: NextFunction) {
 
-    this.title = 'BookMonkey 3 API';
+    this.title = 'BookMonkey 4 API';
 
     //set message
     let options: Object = {
