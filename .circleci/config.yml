@@ -25,7 +25,7 @@ jobs:
       - image: circleci/node:10-browsers
 
     environment:
-      GITHUB_ORG: https://GH_TOKEN@github.com/book-monkey4
+      GITHUB_ORG: https://github.com/book-monkey4
       GITHUB_NAME: The Buildbot
       GITHUB_EMAIL: buildbot@angular2buch.de
       NAME: api4-build
