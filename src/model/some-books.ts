@@ -52,7 +52,7 @@ Neben den Grundlagen werden auch behandelt:
 • Mobile Anwendungen mit NativeScript
 • Server-Side Rendering
 
-Das Buch setzt Vorkenntnisse in JavaScript, HTML und CSS voraus. Wer noch nicht mit TypeScript vertraut ist, findet hier eine kompakte Einführung. 
+Das Buch setzt Vorkenntnisse in JavaScript, HTML und CSS voraus. Wer noch nicht mit TypeScript vertraut ist, findet hier eine kompakte Einführung.
 
 Auf der Website zum Buch werden außerdem regelmäßig Aktualisierungen und Neuigkeiten rund um Angular veröffentlicht.
 
@@ -175,7 +175,7 @@ Unter anderem wirst du folgende Themen kennenlernen:
 • Statemanagement mit React Context und Redux
 • Serverseitiges Rendern von React-Anwendungen
 • Strategien zur Performance-Optimierung
-      
+
 Eigene Kapitel widmen sich den eingesetzten modernen JavaScript-Features sowie TypeScript, sodass zum Verständnis des Buches Kenntnisse von ES5 ausreichen.
 
 Neu in der 2. Auflage sind unter anderem:
