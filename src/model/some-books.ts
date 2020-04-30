@@ -28,7 +28,7 @@ Es kann weder neu angelegt, noch verändert oder gelöscht werden.`
       'Grundlagen, fortgeschrittene Themen und Best Practices – inklusive RxJS, NgRx & PWA',
       5,
       [
-        new Thumbnail('https://api4.angular-buch.com/images/angular_auflage3.png', 'Front Cover'),
+        new Thumbnail('https://api4.angular-buch.com/images/angular_auflage3.jpg', 'Front Cover'),
       ],
       `Lernen Sie die Grundlagen von Angular mit diesem Praxisbuch!
 
