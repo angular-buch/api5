@@ -25,7 +25,7 @@ Es kann weder neu angelegt, noch verändert oder gelöscht werden.`
       'Angular',
       ['Ferdinand Malcher', 'Johannes Hoppe', 'Danny Koppenhagen'],
       new Date('2020-09-01T00:00:00.000Z'),
-      'Angular: Grundlagen, fortgeschrittene Themen und Best Practices – inkl. RxJS, NgRx & PWA (iX Edition)',
+      'Grundlagen, fortgeschrittene Themen und Best Practices – inkl. RxJS, NgRx & PWA (iX Edition)',
       5,
       [
         new Thumbnail('https://api4.angular-buch.com/images/angular_auflage3.jpg', 'Front Cover'),
