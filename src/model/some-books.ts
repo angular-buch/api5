@@ -24,43 +24,44 @@ Es kann weder neu angelegt, noch verändert oder gelöscht werden.`
       '9783864907791',
       'Angular',
       ['Ferdinand Malcher', 'Johannes Hoppe', 'Danny Koppenhagen'],
-      new Date('2020-07-01T00:00:00.000Z'),
-      'Grundlagen, fortgeschrittene Themen und Best Practices – inklusive RxJS, NgRx & PWA',
+      new Date('2020-09-01T00:00:00.000Z'),
+      'Angular: Grundlagen, fortgeschrittene Themen und Best Practices – inkl. RxJS, NgRx & PWA (iX Edition)',
       5,
       [
         new Thumbnail('https://api4.angular-buch.com/images/angular_auflage3.jpg', 'Front Cover'),
       ],
-      `Lernen Sie die Grundlagen von Angular mit diesem Praxisbuch!
+      `Lernen Sie Angular mit diesem Praxisbuch!
 
 Mit einem anspruchsvollen Beispielprojekt führen wir Sie durch die Welt von Angular. Lernen Sie Schritt für Schritt, wie Sie modulare Single-Page-Anwendungen entwickeln.
-
+      
 Praktisch: Der Programmcode zu jeder einzelnen Entwicklungsphase ist auf GitHub verfügbar. So können Sie alle Schritte gut nachvollziehen und auch Teile überspringen.
-
-Die Autoren sind erfahrene Workshopleiter, Entwickler und internationale Konferenzsprecher. In diesem praktischen Nachschlagewerk vermitteln sie die Best Practices aus der täglichen Arbeit mit Angular.
+      
+Die Autoren Ferdinand Malcher, Johannes Hoppe und Danny Koppenhagen sind erfahrene Workshopleiter, Entwickler und internationale Konferenzsprecher. Aufgrund ihres Engagements rund um das Buch und Angular wurden Ferdinand und Johannes als Google Developer Experts (GDE) ausgezeichnet. In diesem praktischen Nachschlagewerk vermitteln sie die Best Practices aus ihrer täglichen Arbeit mit Angular.
+      
 Neben den Grundlagen werden auch behandelt:
-
-• Kompakter Schnelleinstieg mit Stackblitz
+      
 • Reaktive Programmierung mit RxJS
-• State-Management mit Redux und NgRx
+• State Management mit Redux und NgRx
 • Testing mit Jasmine, Karma und Protractor
-• Routing und Modulsystem
+• Routing, Guards und Modulsystem
 • HTTP und Interceptoren
 • Formularverarbeitung
 • Dependency Injection und Services
 • Internationalisierung (i18n)
-• Progressive Web Apps (PWA)
-• Mobile Anwendungen mit NativeScript
 • Server-Side Rendering
+• Progressive Web Apps (PWA) und NativeScript
 
 Das Buch setzt Vorkenntnisse in JavaScript, HTML und CSS voraus. Wer noch nicht mit TypeScript vertraut ist, findet hier eine kompakte Einführung.
 
 Auf der Website zum Buch werden außerdem regelmäßig Aktualisierungen und Neuigkeiten rund um Angular veröffentlicht.
 
 Neu in dieser Auflage
-
 • Durchgängig aktualisiert auf Angular 10 und neuere Versionen
 • Deployment mit Docker
-• Progressive Web Apps mit Angular`
+• Progressive Web Apps (PWA)
+• Angular Elements
+• OAuth 2 und OpenID Connect
+• Viele Ergänzungen und Korrekturen`
     ),
     new Book(
       '9783864906466',
