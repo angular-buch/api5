@@ -71,7 +71,7 @@ export class BooksStore {
       return;
     }
 
-    this.booksCache.push(book);
+    this.booksCache = [...this.booksCache, book];
   };
 
   update(book: Book) {
