@@ -1,14 +1,12 @@
-import { Thumbnail } from './thumbnail';
-export { Thumbnail } from './thumbnail';
-
-export class Book {
-  constructor(public isbn: string,
-    public title: string,
-    public authors: string[],
-    public published: Date,
-    public subtitle: string,
-    public rating: number,
-    public thumbnails: Thumbnail[],
-    public description: string) {
-  }
+export interface Book {
+  isbn: string;
+  title: string,
+  authors: string[],
+  published: string,
+  subtitle: string,
+  rating: number,
+  thumbnailUrl: string,
+  description: string
 }
+
+

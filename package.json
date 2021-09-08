@@ -1,5 +1,5 @@
 {
-  "name": "book-monkey4-public-api",
+  "name": "book-monkey5-public-api",
   "description": "REST Server Backend for our Angular Book",
   "version": "0.1.0",
   "private": true,
@@ -17,6 +17,7 @@
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "date-fns": "^2.23.0",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
@@ -43,6 +44,7 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-ts": "^6.0.0-beta.22",
     "nodemon": "^2.0.3",
+    "prettier": "^2.3.2",
     "typescript": "^3.8.3"
   }
 }

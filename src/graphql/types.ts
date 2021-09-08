@@ -17,13 +17,8 @@ export const typeDefs = `
     subtitle: String
     rating: Int
     description: String
-    thumbnails: [Thumbnail]
+    thumbnailUrl: String
     authors: [Author]
-  }
-
-  type Thumbnail {
-    url: String
-    title: String
   }
 
   type Author {
@@ -37,10 +32,6 @@ export const typeDefs = `
     subtitle: String
     rating: Int
     description: String
-  }
-
-  input ThumbnailInput {
-    url: String
-    title: String
+    thumbnailUrl: String
   }
 `

@@ -1,5 +1,5 @@
 import * as graphqlHTTP from 'express-graphql';
-import { NextFunction, Request, Response, Router } from 'express';
+import { Router } from 'express';
 import { BooksStore } from '../books-store';
 import { executableSchema } from './schema';
 

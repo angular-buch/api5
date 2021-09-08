@@ -1,4 +1,4 @@
-import { BookFactory } from "../model/book-factory";
+import { BookFactory } from '../model/book-factory';
 
 export const resolvers = {
   Query: {

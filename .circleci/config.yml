@@ -25,10 +25,10 @@ jobs:
       - image: circleci/node:10-browsers
 
     environment:
-      GITHUB_ORG: https://github.com/book-monkey4
+      GITHUB_ORG: https://github.com/book-monkey5
       GITHUB_NAME: The Buildbot
       GITHUB_EMAIL: buildbot@angular2buch.de
-      NAME: api4-build
+      NAME: api5-build
 
     steps:
       - attach_workspace:

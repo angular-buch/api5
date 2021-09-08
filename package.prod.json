@@ -1,5 +1,5 @@
 {
-  "name": "book-monkey4-public-api-compiled",
+  "name": "book-monkey5-public-api-compiled",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,6 +12,7 @@
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
+    "date-fns": "^2.23.0",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",

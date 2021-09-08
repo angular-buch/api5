@@ -155,10 +155,8 @@ export class Server {
 
 
     // use router middleware
-    this.app.use('/book', booksRouter);
-    this.app.use('/books', booksRouter);
-    this.app.use('/secure/book', fakeBearerMiddleware, booksRouter);
-    this.app.use('/secure/books', fakeBearerMiddleware, booksRouter);
+    this.app.use('/book', fakeBearerMiddleware, booksRouter);
+    this.app.use('/books', fakeBearerMiddleware, booksRouter);
     this.app.use('/graphql', graphQLRouter);
     this.app.use('/notifications', notificationsRouter);
     this.app.use(router);

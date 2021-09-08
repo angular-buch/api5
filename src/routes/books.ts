@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from 'express';
 import * as _ from 'lodash';
 
-import { BookFactory, PLACEHOLDER_IMG } from '../model/book-factory';
+import { BookFactory, PLACEHOLDER_IMG_URL } from '../model/book-factory';
 import { BooksStore } from '../books-store';
 import { HTTP } from './http';
-import { NotificationService } from "../notification-service";
+import { NotificationService } from '../notification-service';
 
 export class BooksRoute {
 
@@ -88,7 +88,7 @@ export class BooksRoute {
     }
 
     const book = BookFactory.fromJson(bookJson);
-    this.store.create(book)
+    this.store.create(book);
 
     res.sendStatus(HTTP.CREATED);
 
@@ -97,7 +97,7 @@ export class BooksRoute {
       const notificationPayload = {
         title: `🆕📕 ${book.title}`,
         body: `ISBN: ${book.isbn}`,
-        icon: book.thumbnails[0].url || PLACEHOLDER_IMG.url,
+        icon: book.thumbnailUrl || PLACEHOLDER_IMG_URL,
         vibrate: [100, 50, 100],
         data: { url: `${req.headers.origin}/books/${book.isbn}`}
       };

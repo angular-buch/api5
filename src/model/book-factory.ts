@@ -1,22 +1,26 @@
-import { Thumbnail } from './thumbnail';
+import { format } from 'date-fns';
 import { Book } from './book';
 
-export const PLACEHOLDER_IMG = {
-  url: 'https://api4.angular-buch.com/images/placeholder_book.svg',
-  title: 'Kein Vorschaubild verfügbar'
-}
+export const PLACEHOLDER_IMG_URL = 'https://api5.angular-buch.com/images/placeholder_book.svg';
 
 export class BookFactory {
 
   static empty(): Book {
-    const defaultThumbnail = new Thumbnail(PLACEHOLDER_IMG.url, PLACEHOLDER_IMG.title);
-
-    return new Book('', '', [''], new Date(), '', 3, [defaultThumbnail], '');
+    return {
+      isbn: '',
+      title: '',
+      authors: [''],
+      published: new Date().toISOString(),
+      subtitle: '',
+      rating: 3,
+      thumbnailUrl: PLACEHOLDER_IMG_URL,
+      description: ''
+    };
   }
 
   static fromJson(json: any): Book {
 
-    let book = BookFactory.empty();
+    const book = BookFactory.empty();
 
     if (this.validString(json.isbn)) {
       book.isbn = BookFactory.normalizeIsbn(json.isbn);
@@ -36,7 +40,7 @@ export class BookFactory {
 
     if (this.validString(json.published) &&
         this.validDate(json.published)) {
-      book.published = new Date(json.published);
+      book.published = BookFactory.normalizeDate(json.published);
     }
 
     if (this.validString(json.subtitle)) {
@@ -47,17 +51,8 @@ export class BookFactory {
       book.rating = BookFactory.normalizeRating(json.rating);
     }
 
-    if (this.validArray(json.thumbnails)) {
-      let thumbnails: Thumbnail[] = [];
-      for (let thumbnail of json.thumbnails) {
-
-        if (this.validObject(thumbnail) &&
-            this.validString(thumbnail.url) &&
-            this.validString(thumbnail.title)) {
-          thumbnails.push(new Thumbnail(thumbnail.url.trim(), thumbnail.title.trim()));
-        }
-      }
-      if (thumbnails.length) { book.thumbnails = thumbnails; }
+    if (this.validString(json.thumbnailUrl)) {
+      book.thumbnailUrl = json.thumbnailUrl;
     }
 
     if (this.validString(json.description)) {
@@ -75,6 +70,11 @@ export class BookFactory {
   public static normalizeRating(rating: number): number {
     let r = +rating;
     return (r < 0) ? 0 : (r > 5) ? 5 : r;
+  }
+
+  public static normalizeDate(date: string): string {
+    const d = new Date(date);
+    return format(d, 'yyyy-MM-dd');
   }
 
   private static validString(str: string) {
@@ -97,3 +97,6 @@ export class BookFactory {
     return no && typeof no == 'number';
   }
 }
+
+
+console.log(BookFactory.normalizeDate('2021-10-01'));

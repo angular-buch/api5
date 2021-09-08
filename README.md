@@ -1,11 +1,11 @@
-# BookMonkey 4 API
+# BookMonkey 5 API
 
 
 ![Monkey](public/images/monkey-thinking.png)
 
-Backend for the [BookMonkey 4](https://github.com/angular-buch/book-monkey4) demo.  
-A publicly available server is hosted at [api4.angular-buch.com](http://api4.angular-buch.com).  
-The API is fully described via swagger. Explore it [here](http://api4.angular-buch.com/swagger-ui/#/book).
+Backend for the [BookMonkey 5](https://github.com/angular-buch/book-monkey5) demo.  
+A publicly available server is hosted at [api5.angular-buch.com](http://api5.angular-buch.com).  
+The API is fully described via swagger. Explore it [here](http://api5.angular-buch.com/swagger-ui/#/book).
 
 
 # The book
@@ -23,8 +23,8 @@ You might want to extend or modify the project.
 Execute the following commands to start the standalone-server:
 
 ```
-git clone https://github.com/angular-buch/api4.git
-cd api4
+git clone https://github.com/angular-buch/api5.git
+cd api5
 npm install
 npm start
 ```

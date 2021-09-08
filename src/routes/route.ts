@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
 /**
  * Constructor
@@ -50,7 +50,7 @@ export class BaseRoute {
    */
   public render(req: Request, res: Response, view: string, options?: Object) {
     //add constants
-    res.locals.BASE_URL = "/";
+    res.locals.BASE_URL = '/';
 
     //add scripts
     res.locals.scripts = this.scripts;
