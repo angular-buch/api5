@@ -4,8 +4,8 @@
 ![Monkey](public/images/monkey-thinking.png)
 
 Backend for the [BookMonkey 5](https://github.com/angular-buch/book-monkey5) demo.  
-A publicly available server is hosted at [api5.angular-buch.com](http://api5.angular-buch.com).  
-The API is fully described via swagger. Explore it [here](http://api5.angular-buch.com/swagger-ui/#/book).
+A publicly available server is hosted at [api5.angular-buch.com](https://api5.angular-buch.com).  
+The API is fully described via swagger. Explore it [here](https://api5.angular-buch.com/swagger-ui/#/book).
 
 
 # The book

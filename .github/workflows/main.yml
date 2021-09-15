@@ -1,0 +1,47 @@
+name: Build and deploy API
+
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Git
+      uses: actions/checkout@v2
+    
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14.x
+
+    # This caches all of your node_modules folders throughout your repository,
+    # and busts the cache every time a package-lock.json file changes.
+    # see https://dev.to/mpocock1/how-to-cache-nodemodules-in-github-actions-with-yarn-24eh
+    - name: Cache node modules
+      uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+        
+    - run: npm install
+
+    - name: Build API
+      run: npm run grunt
+
+    - name: Deploy API
+      if: ${{ github.event_name == 'push' }}
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GITHUB_ORG: https://github.com/book-monkey5
+        GITHUB_NAME: The Buildbot
+        GITHUB_EMAIL: buildbot@angular2buch.de
+        NAME: api5-build
+      run: npx angular-cli-ghpages --repo "$GITHUB_ORG/$NAME.git" --name "$GITHUB_NAME" --email "$GITHUB_EMAIL" --branch master
+
