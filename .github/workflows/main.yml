@@ -43,5 +43,5 @@ jobs:
         GITHUB_NAME: The Buildbot
         GITHUB_EMAIL: buildbot@angular2buch.de
         NAME: api5-build
-      run: npx angular-cli-ghpages --repo "$GITHUB_ORG/$NAME.git" --name "$GITHUB_NAME" --email "$GITHUB_EMAIL" --branch master
+      run: npx angular-cli-ghpages --repo "$GITHUB_ORG/$NAME.git" --name "$GITHUB_NAME" --email "$GITHUB_EMAIL" --branch main
 
