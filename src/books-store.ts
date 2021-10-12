@@ -17,11 +17,16 @@ export class BooksStore {
   }
 
   get books(): Book[] {
+    let books = this.onlyPublicBooks(this.booksCache);
     if (this.isSecure) {
-      return this.removeSecureInfo(this.addSecureTitle(this.booksCache));
-    } else {
-      return this.removeSecureInfo(this.onlyPublicBooks(this.booksCache))
+      books = [...this.onlySecureBooks(this.booksCache), ...books];
     }
+
+    return this.removeSecureInfo(books);
+  }
+
+  private sortBooks<T extends Book>(books: T[]): T[] {
+    return _(books).sortBy(b => b.title).value()
   }
 
   private addSecureTitle(books: BookWithSecureInfo[]): BookWithSecureInfo[] {
@@ -39,7 +44,11 @@ export class BooksStore {
   }
 
   private onlyPublicBooks(books: BookWithSecureInfo[]): BookWithSecureInfo[] {
-    return books.filter(book => !book.secure);
+    return this.sortBooks(books.filter(book => !book.secure));
+  }
+
+  private onlySecureBooks(books: BookWithSecureInfo[]): BookWithSecureInfo[] {
+    return this.addSecureTitle(this.sortBooks(books.filter(book => book.secure)));
   }
 
   setSecure(isSecure = false) {
@@ -47,48 +56,42 @@ export class BooksStore {
   }
 
   getAll(): Book[] {
-    return _(this.books)
-      .sortBy(b => b.rating)
-      .reverse()
-      .value();
+    return this.books;
   };
 
   getAllBySearch(searchTerm: string): Book[] {
     searchTerm = searchTerm.toLowerCase();
     const containsSearchTerm = (checked) => ~checked.toLowerCase().indexOf(searchTerm);
 
-    return _(this.books)
+    return this.books
       .filter(b =>
-          !!(
-            containsSearchTerm(b.isbn) ||
-            containsSearchTerm(b.title) ||
-            _.some(b.authors, containsSearchTerm) ||
-            containsSearchTerm(b.published) ||
-            containsSearchTerm(b.subtitle) ||
-            containsSearchTerm(b.description))
-          )
-      .sortBy(b => b.rating)
-      .reverse()
-      .value();
+        !!(
+          containsSearchTerm(b.isbn) ||
+          containsSearchTerm(b.title) ||
+          _.some(b.authors, containsSearchTerm) ||
+          containsSearchTerm(b.published) ||
+          containsSearchTerm(b.subtitle) ||
+          containsSearchTerm(b.description))
+        )
   };
 
-  getByIsbn(isbn: string) {
+  getByIsbn(isbn: string): Book {
     isbn = BookFactory.normalizeIsbn(isbn);
     return this.books.find(book => book.isbn === isbn);
   };
 
-  findByAuthorName(author: string) {
+  findByAuthorName(author: string): Book[] {
     return this.books.filter(b => b.authors.includes(author));
   }
 
-  getAllAuthors() {
+  getAllAuthors(): string[] {
     return _(this.books)
       .flatMap(b => b.authors)
       .uniq()
       .value()
   }
 
-  isbnExists(isbn: string) {
+  isbnExists(isbn: string): boolean {
     // search in full cache so that secure books are checked, too
     const book = this.booksCache.find(book => book.isbn === isbn);
     return !!book;

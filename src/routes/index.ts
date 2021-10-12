@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { BaseRoute } from './route';
-import * as fs from 'fs';
-import * as path from 'path';
 
 /**
  * / route

@@ -87,7 +87,10 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Book was created"
+                        "description": "Book was created",
+                        "schema": {
+                            "$ref": "#/definitions/Book"
+                        }
                     },
                     "400": {
                         "description": "Invalid data",
@@ -207,7 +210,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Book was updated"
+                        "description": "Book was updated",
+                        "schema": {
+                            "$ref": "#/definitions/Book"
+                        }
                     },
                     "400": {
                         "description": "Invalid data",
@@ -284,55 +290,6 @@
                 }
             }
         },
-        "/books/{isbn}/rate": {
-            "post": {
-                "tags": [
-                    "books"
-                ],
-                "summary": "Update rating of a book to a given value",
-                "parameters": [
-                    {
-                        "name": "isbn",
-                        "in": "path",
-                        "type": "string",
-                        "description": "ISBN of the book",
-                        "required": true
-                    },
-                    {
-                        "name": "rating",
-                        "in": "body",
-                        "description": "The new rating value for the given book",
-                        "schema": {
-                            "$ref": "#/definitions/Rating"
-                        },
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Rating has been updated"
-                    },
-                    "400": {
-                        "description": "Invalid data",
-                        "schema": {
-                            "$ref": "#/definitions/RestError"
-                        }
-                    },
-                    "404": {
-                        "description": "Book does not exist",
-                        "schema": {
-                            "$ref": "#/definitions/RestError"
-                        }
-                    },
-                    "500": {
-                        "description": "Unexpected Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/RestError"
-                        }
-                    }
-                }
-            }
-        },
         "/notifications": {
             "post": {
                 "tags": [
@@ -395,7 +352,7 @@
             "properties": {
                 "isbn": {
                     "type": "string",
-                    "example": "9783864903571",
+                    "example": "9783864907791",
                     "description": "ISBN which is used as identifier - only numbers are allowed (no hyphens)"
                 },
                 "title": {
@@ -410,8 +367,8 @@
                     },
                     "description": "List of all authors of the book",
                     "example": [
-                        "Johannes Hoppe",
                         "Ferdinand Malcher",
+                        "Johannes Hoppe",
                         "Danny Koppenhagen"
                     ]
                 },
@@ -419,14 +376,6 @@
                     "type": "string",
                     "example": "Grundlagen und Best Practices",
                     "description": "Subtitle of the book"
-                },
-                "rating": {
-                    "type": "integer",
-                    "format": "int32",
-                    "example": 4,
-                    "minimum": 1,
-                    "maximum": 5,
-                    "description": "Rating of the book as stars, from one star (bad) to five stars (great)"
                 },
                 "published": {
                     "type": "string",
@@ -436,29 +385,12 @@
                 },
                 "description": {
                     "type": "string",
-                    "example": "Mit diesem Buch arbeiten Sie sich durch Googles neuestes Framework und erstellen mit aktuellen Technologien moderne Webanwendungen. Lernen und vertiefen Sie die komponentenorientierte Entwicklung von Single-Page-Anwendungen. Neben den Grundlagen werden auch fortgeschrittene Konzepte von Angular am Beispiel erklärt.",
+                    "example": "Mit diesem Buch lernen Sie alles über Angular.",
                     "description": "Short description of the book"
                 },
                 "thumbnailUrl": {
                     "type": "string",
-                    "description": "Thumbnail Image of the book"
-                }
-            }
-        },
-        "Rating": {
-            "type": "object",
-            "description": "An object with a rating value (1...5)",
-            "required": [
-                "rating"
-            ],
-            "properties": {
-                "rating": {
-                    "type": "integer",
-                    "format": "int32",
-                    "example": 4,
-                    "minimum": 1,
-                    "maximum": 5,
-                    "description": "Rating value for a book from one star (bad) to five stars (great)"
+                    "description": "Thumbnail Image URL of the book"
                 }
             }
         },

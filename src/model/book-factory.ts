@@ -10,11 +10,7 @@ export class BookFactory {
       isbn: '',
       title: '',
       authors: [''],
-      published: new Date().toISOString(),
-      subtitle: '',
-      rating: 3,
       thumbnailUrl: PLACEHOLDER_IMG_URL,
-      description: ''
     };
   }
 
@@ -47,10 +43,6 @@ export class BookFactory {
       book.subtitle = json.subtitle.trim();
     }
 
-    if (this.validNumber(json.rating)) {
-      book.rating = BookFactory.normalizeRating(json.rating);
-    }
-
     if (this.validString(json.thumbnailUrl)) {
       book.thumbnailUrl = json.thumbnailUrl;
     }
@@ -67,14 +59,8 @@ export class BookFactory {
     return i.replace(/[^0-9]/g, '');
   }
 
-  public static normalizeRating(rating: number): number {
-    let r = +rating;
-    return (r < 0) ? 0 : (r > 5) ? 5 : r;
-  }
-
   public static normalizeDate(date: string): string {
-    const d = new Date(date);
-    return format(d, 'yyyy-MM-dd');
+    return new Date(date).toISOString();
   }
 
   private static validString(str: string) {
@@ -99,4 +85,3 @@ export class BookFactory {
 }
 
 
-console.log(BookFactory.normalizeDate('2021-10-01'));

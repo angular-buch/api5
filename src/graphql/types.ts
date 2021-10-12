@@ -15,7 +15,6 @@ export const typeDefs = `
     isbn: ID!
     title: String
     subtitle: String
-    rating: Int
     description: String
     thumbnailUrl: String
     authors: [Author]
@@ -30,7 +29,6 @@ export const typeDefs = `
     isbn: String
     title: String
     subtitle: String
-    rating: Int
     description: String
     thumbnailUrl: String
   }

@@ -13,14 +13,13 @@ export class BooksRoute {
     const booksRoute = new BooksRoute(bookStore, notificationService);
     const methodsToBind = [
       'getAll', 'getAllBySearch', 'reset', 'create',
-      'rate', 'getByISBN', 'checkISBN', 'update', 'delete']
+      'getByISBN', 'checkISBN', 'update', 'delete']
     _.bindAll(booksRoute, methodsToBind);
 
     router.get('/', booksRoute.getAll);
     router.get('/search/:search', booksRoute.getAllBySearch);
     router.delete('/', booksRoute.reset);
     router.post('/', booksRoute.create);
-    router.post('/:isbn/rate', booksRoute.rate);
     router.get('/:isbn', booksRoute.getByISBN);
     router.get('/:isbn/check', booksRoute.checkISBN);
     router.put('/:isbn', booksRoute.update);
@@ -90,7 +89,7 @@ export class BooksRoute {
     const book = BookFactory.fromJson(bookJson);
     this.store.create(book);
 
-    res.sendStatus(HTTP.CREATED);
+    res.status(HTTP.CREATED).json(book);
 
     // Send notifications if there is a subscription
     if (this.notificationService.hasSubscriber()) {
@@ -128,7 +127,7 @@ export class BooksRoute {
     const book = BookFactory.fromJson(bookJson);
     this.store.update(book)
 
-    res.send(HTTP.OK);
+    res.status(HTTP.OK).json(book);
     next();
   };
 
@@ -152,27 +151,4 @@ export class BooksRoute {
       next();
     }
   };
-
-  rate(req: Request, res: Response, next: NextFunction) {
-    this.store.setSecure(res.locals.authorized);
-
-    const isbn = req.params.isbn;
-    const rating = req.body.rating;
-
-    if (!rating && rating !== 0) {
-      return res.status(HTTP.BAD_REQUEST).send('Invalid data: rating is mandatory');
-    }
-
-    const book = this.store.getByIsbn(isbn);
-
-    if (!book) {
-      return res.status(HTTP.NOT_FOUND).send('Book does not exist');
-    }
-
-    book.rating = BookFactory.normalizeRating(rating);
-
-    res.send(HTTP.OK);
-    next();
-  };
-
 }
