@@ -26,7 +26,7 @@ export class SomeBooks {
       isbn: '1234567890',
       title: 'Geheimes Buch I',
       authors: ['Anonymous'],
-      published: '2022-07-15T00:00:00.000Z',
+      published: '2022-07-15T12:00:00.000Z',
       subtitle: `Das geheime Buch ist nur über die sichere Ressource verfügbar.`,
       thumbnailUrl: 'https://api5.angular-buch.com/images/anonymous-emblem.svg',
       description: `Wenn Sie diesen Text lesen können, haben Sie den Authorization-Header korrekt gesendet - denn dieses geheime Buch ist nur über die sichere Ressource verfügbar.`
@@ -35,7 +35,7 @@ export class SomeBooks {
       isbn: '0987654321',
       title: 'Geheimes Buch II',
       authors: ['Anonymous'],
-      published: '2022-06-20T00:00:00.000Z',
+      published: '2022-06-20T12:00:00.000Z',
       subtitle: `Nur für eingeloggte User`,
       thumbnailUrl: 'https://api5.angular-buch.com/images/anonymous-emblem.svg',
       description: `Dieses Buch ist nur für eingeloggte User sichtbar.`
@@ -52,7 +52,7 @@ export class SomeBooks {
           'Johannes Hoppe',
           'Danny Koppenhagen'
         ],
-        published: '2020-10-12T00:00:00.000Z',
+        published: '2020-10-12T12:00:00.000Z',
         subtitle: 'Grundlagen, fortgeschrittene Themen und Best Practices – inkl. RxJS, NgRx & PWA (iX Edition)',
         description: 'Lernen Sie Angular mit diesem Praxisbuch! Mit einem anspruchsvollen Beispielprojekt führen wir Sie durch die Welt von Angular.',
         thumbnailUrl: 'https://api.angular.schule/images/cover/angular_auflage3.jpg'
@@ -63,7 +63,7 @@ export class SomeBooks {
         authors: [
           'Anke Lederer'
         ],
-        published: '2021-02-26T00:00:00.000Z',
+        published: '2021-02-26T12:00:00.000Z',
         subtitle: 'Von den ersten Schritten bis zu eigenen GitHub Actions',
         description: 'GitHub ist derzeit die größte Internetplattform für Open-Source-Entwicklungsprojekte und bietet ein grafisches Webinterface mit vielen Funktionen für die gemeinsame Arbeit sowie interessante Community-Features. Technisch setzt es auf der bekannten Versionsverwaltung Git auf.',
         thumbnailUrl: 'https://api.angular.schule/images/cover/github.jpg'
@@ -74,7 +74,7 @@ export class SomeBooks {
         authors: [
           'Dominik Kress'
         ],
-        published: '2020-10-26T00:00:00.000Z',
+        published: '2020-10-26T12:00:00.000Z',
         subtitle: 'Eine Einführung in APIs mit GraphQL',
         description: 'API-Design mit GraphQL für Um- und Einsteiger. In Anwendungen, bei denen es auf komplexe aber dennoch schlanke Datenabfragen ankommt, spielt GraphQL seine Vorteile aus. Dominik Kress gibt Ihnen dafür das nötige Wissen rund um API-Design und die GraphQL-spezifischen Datenmodelle an die Hand.',
         thumbnailUrl: 'https://api.angular.schule/images/cover/graphql.jpg'
@@ -86,7 +86,7 @@ export class SomeBooks {
           'René Preißel',
           'Bjørn Stachmann'
         ],
-        published: '2017-03-13T00:00:00.000Z',
+        published: '2017-03-13T12:00:00.000Z',
         subtitle: 'Dezentrale Versionsverwaltung im Team – Grundlagen und Workflows',
         description: 'Git ist eine der beliebtesten Versionsverwaltungen. Die Vielfalt an Kommandos, Optionen und Konfigurationen wirkt anfangs aber oft einschüchternd – obwohl die Grundkonzepte einfach sind und man schon mit wenigen davon effektiv arbeiten kann.',
         thumbnailUrl: 'https://api.angular.schule/images/cover/git.jpg'
@@ -113,7 +113,7 @@ export class SomeBooks {
           'Johannes Hoppe',
           'Danny Koppenhagen'
         ],
-        published: '2019-06-14T00:00:00.000Z',
+        published: '2019-06-14T12:00:00.000Z',
         subtitle: 'Grundlagen, fortgeschrittene Themen und Best Practices – mit NativeScript und NgRx',
         description: 'Die Autoren führen Sie mit einem anspruchsvollen Beispielprojekt durch die Welt von Angular. Lernen Sie Schritt für Schritt, wie Sie strukturierte und modulare Single-Page-Anwendungen entwickeln. Nach der erfolgreichen ersten Auflage wurde dieses Buch grundlegend aktualisiert und erweitert:\n      Durchgängig aktualisiert auf Angular 7 und neuere Versionen, Redux mit Reactive Extensions for Angular (NgRx), Ausführliches Kapitel zu RxJS und Observables, Server-Side Rendering mit Angular Universal, HTTP-Interceptoren, Kompakter Schnelleinstieg in Angular mit Stackblitz.\n      Praktisch: Der Programmcode zu jeder einzelnen Entwicklungsphase ist auf GitHub verfügbar. So können Sie alle Schritte gut nachvollziehen und auch Teile überspringen.',
         thumbnailUrl: 'https://api.angular.schule/images/cover/angular_auflage2.jpg'
@@ -124,7 +124,7 @@ export class SomeBooks {
         authors: [
           'Sebastian Springer'
         ],
-        published: '2015-02-26T00:00:00.000Z',
+        published: '2015-02-26T12:00:00.000Z',
         subtitle: 'Das Handbuch für den professionellen Programmierer',
         description: 'Entwickeln oder warten Sie JavaScript-Webapplikationen und haben immer ein ungutes Gefühl, wenn Sie Ihre Software in Betrieb nehmen? Dann wird es höchste Zeit, dass Sie sich mit testgetriebener Entwicklung vertraut machen. Dieses Buch zeigt JavaScript-Entwicklern, wie Test-Driven Development (TDD) in der Praxis funktionieren kann.',
         thumbnailUrl: 'https://api.angular.schule/images/cover/tdd.jpg'
@@ -136,7 +136,7 @@ export class SomeBooks {
           'Oliver Zeigermann',
           'Nils Hartmann'
         ],
-        published: '2019-12-12T00:00:00.000Z',
+        published: '2019-12-12T12:00:00.000Z',
         subtitle: 'Grundlagen, fortgeschrittene Techniken und Praxistipps – mit TypeScript und Redux',
         description: 'Das bewährte und umfassende Praxisbuch zu React – jetzt komplett aktualisiert und erweitert!',
         thumbnailUrl: 'https://api.angular.schule/images/cover/react2.jpg'
