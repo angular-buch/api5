@@ -36,7 +36,8 @@ export class BookFactory {
 
     if (this.validString(json.published) &&
         this.validDate(json.published)) {
-      book.published = BookFactory.normalizeDate(json.published);
+      // book.published = BookFactory.normalizeDate(json.published);
+      book.published = json.published;
     }
 
     if (this.validString(json.subtitle)) {
