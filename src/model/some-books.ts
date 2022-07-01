@@ -1,4 +1,4 @@
-﻿import { Book } from './book'
+import { Book } from './book'
 
 export type BookWithSecureInfo = Book & { secure: boolean };
 
@@ -45,6 +45,19 @@ export class SomeBooks {
 
   private static publicBooks: Book[] = [
       {
+      isbn: '9783864909467',
+      title: 'Angular (4. Auflage)',
+      authors: [
+        'Ferdinand Malcher',
+        'Johannes Hoppe',
+        'Danny Koppenhagen'
+      ],
+      published: '2022-11-12T12:00:00.000Z',
+      subtitle: 'TODO – Grundlagen, fortgeschrittene Themen und Best Practices',
+      description: 'TODO – Lernen Sie Angular mit diesem Praxisbuch! Mit einem anspruchsvollen Beispielprojekt führen wir Sie durch die Welt von Angular.',
+      thumbnailUrl: 'https://api5.angular-buch.com/images/cover/angular_auflage3.jpg' // TODO
+    },
+    {
         isbn: '9783864907791',
         title: 'Angular (3. Auflage)',
         authors: [
