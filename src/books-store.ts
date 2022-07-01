@@ -75,9 +75,9 @@ export class BooksStore {
         )
   };
 
-  getByIsbn(isbn: string): Book {
-    isbn = BookFactory.normalizeIsbn(isbn);
-    return this.books.find(book => book.isbn === isbn);
+  getByIsbn(isbn: string): Book | undefined {
+    const cleanIsbn = BookFactory.normalizeIsbn(isbn);
+    return this.books.find(book => book.isbn === cleanIsbn);
   };
 
   findByAuthorName(author: string): Book[] {
@@ -108,6 +108,7 @@ export class BooksStore {
 
   update(book: Book) {
     const oldBook = this.booksCache.find(b => b.isbn === book.isbn);
+    if (!oldBook) { return; }
     const newBook: BookWithSecureInfo = {
       ...book,
       title: this.stripSecurePrefix(book.title),
