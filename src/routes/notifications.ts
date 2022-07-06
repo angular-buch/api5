@@ -34,12 +34,12 @@ export class NotificationsRoute {
       return res.status(HTTP.UNPROCESSABLE_ENTITY).send('Malformed Notification Object');
     }
 
-    this.notificationService.addSubscription(notificationRequest);
+    this.notificationService.addSubscription(notificationRequest, req.headers.referer);
     res.status(HTTP.OK).send({ message: 'successfully subscribed' });
 
     const notificationPayload = {
-      title: '🐵 Push-Benachrichtigungen aktiv ✉️',
-      body: 'Sie werden über neue Bücher benachrichtigt',
+      title: '🐵 Push Notifications activated ✉️',
+      body: 'You will be notified of new books',
       vibrate: [50, 50]
     };
 
