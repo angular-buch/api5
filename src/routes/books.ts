@@ -98,7 +98,7 @@ export class BooksRoute {
         body: `ISBN: ${book.isbn}`,
         icon: book.thumbnailUrl || PLACEHOLDER_IMG_URL,
         vibrate: [100, 50, 100],
-        data: { url: `${req.headers.origin}/books/${book.isbn}`}
+        data: book
       };
       this.notificationService.notifySubscribers(notificationPayload);
     }
