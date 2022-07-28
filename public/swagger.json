@@ -268,6 +268,7 @@
                     "books"
                 ],
                 "summary": "Return whether ISBN exists or not",
+                "description": "This endpoint returns wether a book exists or not after an artificial delay of 2 seconds.",
                 "parameters": [
                     {
                         "name": "isbn",

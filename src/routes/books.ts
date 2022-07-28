@@ -6,6 +6,8 @@ import { BooksStore } from '../books-store';
 import { HTTP } from './http';
 import { NotificationService } from '../notification-service';
 
+const ISBN_CHECK_DELAY = 2_000;
+
 export class BooksRoute {
 
   public static create(router: Router, bookStore: BooksStore, notificationService: NotificationService) {
@@ -68,8 +70,10 @@ export class BooksRoute {
     const isbn = req.params.isbn;
     const bookExist = this.store.isbnExists(isbn);
 
-    res.json(bookExist);
-    next();
+    setTimeout(() => {
+      res.json(bookExist);
+      next();
+    }, ISBN_CHECK_DELAY);
   };
 
   create(req: Request, res: Response, next: NextFunction) {
