@@ -92,6 +92,8 @@ export class BooksStore {
   }
 
   isbnExists(isbn: string): boolean {
+    isbn = BookFactory.normalizeIsbn(isbn);
+
     // search in full cache so that secure books are checked, too
     const book = this.booksCache.find(book => book.isbn === isbn);
     return !!book;
