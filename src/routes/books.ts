@@ -141,7 +141,7 @@ export class BooksRoute {
     const isbn = req.params.isbn;
     this.store.delete(isbn);
 
-    res.send(HTTP.OK);
+    res.status(HTTP.OK).json({ success: true });
     next();
   };
 
@@ -151,7 +151,7 @@ export class BooksRoute {
 
     // reset() can be also called without params!
     if (res && next) {
-      res.send(HTTP.OK);
+      res.status(HTTP.OK).json({ success: true });
       next();
     }
   };
