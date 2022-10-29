@@ -45,7 +45,7 @@ export class BookFactory {
     }
 
     if (this.validString(json.thumbnailUrl)) {
-      book.thumbnailUrl = json.thumbnailUrl;
+      book.thumbnailUrl = json.thumbnailUrl || PLACEHOLDER_IMG_URL;
     }
 
     if (this.validString(json.description)) {
