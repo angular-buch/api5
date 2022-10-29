@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { Book } from './book';
 
-export const PLACEHOLDER_IMG_URL = 'https://api5.angular-buch.com/images/placeholder_book.svg';
+export const PLACEHOLDER_IMG_URL = 'https://cdn.ng-buch.de/cover/placeholder.png';
 
 export class BookFactory {
 
