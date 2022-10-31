@@ -1,15 +1,12 @@
 import * as _ from 'lodash';
 import { WebPushError, PushSubscription, sendNotification, setVapidDetails } from 'web-push';
+import vapidKeys from './vapidKeys';
+
 export class NotificationService {
   private subscriptions: PushSubscription[] = [];
   private subscriptionOriginMap = new Map();
 
   constructor() {
-    const vapidKeys = {
-      publicKey: 'BGk2Rx3DEjXdRv9qP8aKrypFoNjISAZ54l-3V05xpPOV-5ZQJvVH9OB9Rz5Ug7H_qH6CEr40f4Pi3DpjzYLbfCA',
-      privateKey: 'D-k70ba0x5ucasrJMfsROWq8Xtt2smbzh98mbXTfhQM'
-    }
-
     setVapidDetails(
       'mailto:team@angular-buch.com',
       vapidKeys.publicKey,
