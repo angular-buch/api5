@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { WebPushError, PushSubscription, sendNotification, setVapidDetails } from 'web-push';
-import vapidKeys from './vapidKeys';
+import vapidKeys from './vapid-keys';
 
 export class NotificationService {
   private subscriptions: PushSubscription[] = [];
