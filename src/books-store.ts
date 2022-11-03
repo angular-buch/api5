@@ -26,7 +26,11 @@ export class BooksStore {
   }
 
   private sortBooks<T extends Book>(books: T[]): T[] {
-    return _(books).sortBy(b => b.title).value()
+    return _(books).sortBy(b => {
+      // "Angular 4. Auflage" should always be on top
+      if (b.isbn === '9783864909467') { return '00000000'; }
+      return b.title;
+    }).value()
   }
 
   private addSecureTitle(books: BookWithSecureInfo[]): BookWithSecureInfo[] {
