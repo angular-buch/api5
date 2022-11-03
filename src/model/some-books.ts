@@ -53,9 +53,9 @@ export class SomeBooks {
         'Danny Koppenhagen'
       ],
       published: '2023-02-15T12:00:00.000Z',
-      subtitle: 'TODO – Grundlagen, fortgeschrittene Themen und Best Practices',
-      description: 'TODO – Lernen Sie Angular mit diesem Praxisbuch! Mit einem anspruchsvollen Beispielprojekt führen wir Sie durch die Welt von Angular.',
-      thumbnailUrl: 'https://cdn.ng-buch.de/cover/angular3.jpg' // TODO
+      subtitle: 'Das große Praxisbuch – Grundlagen, fortgeschrittene Themen und Best Practices',
+      description: 'Lernen Sie Angular mit diesem Praxisbuch! Mit einem anspruchsvollen Beispielprojekt führen wir Sie durch die Welt von Angular.',
+      thumbnailUrl: 'https://cdn.ng-buch.de/cover/angular4.jpg'
     },
     {
       isbn: '9783864907791',
