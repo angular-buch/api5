@@ -49,12 +49,12 @@ export class SomeBooks {
       title: 'Angular (4. Auflage)',
       authors: [
         'Ferdinand Malcher',
-        'Johannes Hoppe',
-        'Danny Koppenhagen'
+        'Danny Koppenhagen',
+        'Johannes Hoppe'
       ],
       published: '2023-02-15T12:00:00.000Z',
       subtitle: 'Das große Praxisbuch – Grundlagen, fortgeschrittene Themen und Best Practices',
-      description: 'Lernen Sie Angular mit diesem Praxisbuch! Mit einem anspruchsvollen Beispielprojekt führen wir Sie durch die Welt von Angular.',
+      description: 'Lernen Sie Angular mit diesem umfassenden Praxisbuch! Sie werden von Ferdinand Malcher, Danny Koppenhagen und Johannes Hoppe anhand eines anspruchsvollen Beispielprojekts durch die Welt von Angular geführt und entwickeln Schritt für Schritt eine umfangreiche modulare Single-Page-Anwendung.',
       thumbnailUrl: 'https://cdn.ng-buch.de/cover/angular4.jpg'
     },
     {
