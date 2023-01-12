@@ -14,6 +14,13 @@ html
       li
         a(href='/books/9783864909467') GET /books/9783864909467
     hr
+    p
+      strong You can reset the book list to its initial state.
+      br
+      | Execute this function if there are no more records or when the contents are insufficient.
+    button(onclick='resetBookList()', id='reset') Reset book list
+    span(id='resetOK') OK
+    hr
     strong
       | Explorable API documentation:&nbsp;
       a(href='/swagger-ui/') /swagger-ui/
@@ -27,3 +34,17 @@ html
     hr
     |   &copy;&nbsp;
     a(href='https://angular-buch.com') Angular-Buch Team
+
+    script.
+      function resetBookList() {
+        const resetOK = document.querySelector('#resetOK');
+        if (!confirm('Do you want to reset the book list?')) {
+          return;
+        }
+
+        fetch('/books', { method: 'DELETE' }).then(() => {
+          resetOK.style.visibility = 'visible';
+
+          setTimeout(() => resetOK.style.visibility = 'hidden', 1000);
+        });
+      }
