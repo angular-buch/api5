@@ -13,29 +13,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Git
-      uses: actions/checkout@v2
-    
-    - name: Use Node.js 14.x
-      uses: actions/setup-node@v2
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
-        node-version: 14.x
+        node-version: 18
+        cache: 'npm' # caching global packages data
 
-    # This caches all of your node_modules folders throughout your repository,
-    # and busts the cache every time a package-lock.json file changes.
-    # see https://dev.to/mpocock1/how-to-cache-nodemodules-in-github-actions-with-yarn-24eh
-    - name: Cache node modules
-      uses: actions/cache@v2
-      with:
-        path: '**/node_modules'
-        key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
-        
-    - run: npm install
+    - run: npm ci --legacy-peer-deps
+    - run: npm run grunt
 
-    - name: Build API
-      run: npm run grunt
-
-    - name: Deploy API
+    - name: Deploy API to book-monkey5/api5-build (main branch)
       if: ${{ github.event_name == 'push' }}
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
