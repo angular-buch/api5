@@ -27,10 +27,6 @@ module.exports = function(grunt) {
           {
             src: "./package.prod.json",
             dest: "./dist/package.json"
-          },
-          {
-            src: "./web.config",
-            dest: "./dist/web.config"
           }
         ]
       }
