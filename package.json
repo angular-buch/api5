@@ -44,7 +44,6 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-ts": "^6.0.0-beta.22",
     "nodemon": "^2.0.3",
-    "prettier": "^2.3.2",
     "typescript": "^3.8.3"
   }
 }
