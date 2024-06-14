@@ -1,11 +1,7 @@
 name: Build and deploy API
 
 on:
-  # Trigger the workflow on push or pull request,
-  # but only for the main branch
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
 
 jobs:
@@ -16,11 +12,10 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: 18
-        cache: 'npm' # caching global packages data
+        node-version: 22
 
-    - run: npm ci --legacy-peer-deps
-    - run: npm run grunt
+    - run: npm ci
+    - run: npm run build
 
     - name: Deploy API to book-monkey5/api5-build (main branch)
       if: ${{ github.event_name == 'push' }}

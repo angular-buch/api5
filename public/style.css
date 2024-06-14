@@ -29,6 +29,19 @@ button#reset:hover {
   visibility: hidden;
 }
 
+p.sponsor {
+  margin-top: 2rem !important;
+  padding: 1rem;
+  font-style: italic;
+  background-color: #ededed;
+}
+
+.heart {
+  float: right;
+  width: 80px;
+}
+
+
 
 /* https://github.com/sindresorhus/github-markdown-css */
 
