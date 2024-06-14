@@ -12,7 +12,6 @@ import { IndexRoute } from './routes/index';
 import { BooksStore } from './books-store';
 import { BooksRoute } from './routes/books';
 import { NotificationsRoute } from './routes/notifications';
-// import { GraphQLRoute } from './graphql/routes';
 import { fakeBearerMiddleware } from './fake-bearer-middleware';
 import { NotificationService } from './notification-service';
 
@@ -144,9 +143,6 @@ export class Server {
     const booksRouter = express.Router();
     BooksRoute.create(booksRouter, store, notificationService)
 
-    // const graphQLRouter = express.Router();
-    // GraphQLRoute.create(graphQLRouter, store);
-
     const notificationsRouter = express.Router();
     NotificationsRoute.create(notificationsRouter, notificationService)
 
@@ -157,7 +153,6 @@ export class Server {
     // use router middleware
     this.app.use('/book', fakeBearerMiddleware, booksRouter);
     this.app.use('/books', fakeBearerMiddleware, booksRouter);
-    // this.app.use('/graphql', graphQLRouter);
     this.app.use('/notifications', notificationsRouter);
     this.app.use(router);
   }
