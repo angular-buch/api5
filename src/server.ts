@@ -5,7 +5,6 @@ import * as logger from 'morgan';
 import * as path from 'path';
 import * as swaggerUi from 'swagger-ui-express';
 import errorHandler = require('errorhandler');
-import methodOverride = require('method-override');
 const fs = require('fs');
 
 import { IndexRoute } from './routes/index';
@@ -83,9 +82,6 @@ export class Server {
     this.app.use(bodyParser.urlencoded({
       extended: true
     }));
-
-    //mount override?
-    this.app.use(methodOverride());
 
     // catch 404 and forward to error handler
     this.app.use(function (err: any, req: express.Request, res: express.Response, next: express.NextFunction) {

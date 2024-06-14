@@ -1,4 +1,3 @@
-import { format } from 'date-fns';
 import { Book } from './book';
 
 export const PLACEHOLDER_IMG_URL = 'https://cdn.ng-buch.de/cover/placeholder.png';
