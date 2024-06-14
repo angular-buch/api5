@@ -27,6 +27,10 @@ module.exports = function(grunt) {
           {
             src: "./package.prod.json",
             dest: "./dist/package.json"
+          },
+          {
+            src: "./package-lock.json",
+            dest: "./dist/package-lock.json"
           }
         ]
       }
