@@ -65,7 +65,7 @@ export class BooksStore {
 
   getAllBySearch(searchTerm: string): Book[] {
     searchTerm = searchTerm.toLowerCase();
-    const containsSearchTerm = (checked) => ~checked.toLowerCase().indexOf(searchTerm);
+    const containsSearchTerm = (checked?: string) => !!checked && ~checked.toLowerCase().indexOf(searchTerm);
 
     return this.books
       .filter(b =>
