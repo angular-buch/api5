@@ -8,6 +8,9 @@ function sortKey(book: Book): string {
   return book.isbn === '9783864909467' ? '00000000' : book.title;
 }
 
+// Upper bound for the in-memory store, so that nobody can fill up the server's memory.
+export const MAX_BOOKS = 1000;
+
 export class BooksStore {
 
   // will exist as long as the service runs
@@ -88,20 +91,16 @@ export class BooksStore {
     return this.books.find(book => book.isbn === cleanIsbn);
   };
 
-  findByAuthorName(author: string): Book[] {
-    return this.books.filter(b => b.authors.includes(author));
-  }
-
-  getAllAuthors(): string[] {
-    return [...new Set(this.books.flatMap(b => b.authors))];
-  }
-
   isbnExists(isbn: string): boolean {
     isbn = BookFactory.normalizeIsbn(isbn);
 
     // search in full cache so that secure books are checked, too
     const book = this.booksCache.find(book => book.isbn === isbn);
     return !!book;
+  }
+
+  isFull() {
+    return this.booksCache.length >= MAX_BOOKS;
   }
 
   create(book: Book) {
@@ -136,7 +135,7 @@ export class BooksStore {
 
   private stripSecurePrefix(title: string): string {
     if (title.startsWith(this.securePrefix)) {
-      return title.substr(this.securePrefix.length);
+      return title.slice(this.securePrefix.length);
     } else {
       return title;
     }

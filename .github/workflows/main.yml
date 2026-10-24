@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
+# one deploy at a time, so that two pushes do not race for the build repository
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
   test-and-deploy:
     runs-on: ubuntu-latest
@@ -36,5 +40,6 @@ jobs:
         rm -rf "$RUNNER_TEMP/build/.github"
         cd "$RUNNER_TEMP/build"
         git add -A
+        git diff --cached --quiet && exit 0 # sources unchanged (e.g. only .github was modified)
         git -c user.name="The Buildbot" -c user.email="buildbot@angular2buch.de" commit -m "Deploy angular-buch/api5@${GITHUB_SHA}"
         git push origin HEAD:main

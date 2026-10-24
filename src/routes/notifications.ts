@@ -1,7 +1,7 @@
 import type { Request, Response, Router } from 'express';
 import type { PushSubscription } from 'web-push';
 
-import { NotificationService } from '../notification-service.ts';
+import { NotificationService, isPushServiceEndpoint } from '../notification-service.ts';
 import { OpenApiDocument } from '../openapi.ts';
 import { NotificationSchema, RestErrorSchema } from '../schemas.ts';
 import { HTTP } from './http-status.ts';
@@ -38,10 +38,6 @@ export class NotificationsRoute {
   requestSubscription(req: Request, res: Response) {
     const notificationRequest: PushSubscription = req.body;
 
-    if (!notificationRequest) {
-      return res.status(HTTP.BAD_REQUEST).send('Invalid data: Notification Object is mandatory');
-    }
-
     if (
       !notificationRequest.endpoint
       || !notificationRequest.keys
@@ -49,6 +45,10 @@ export class NotificationsRoute {
       || !notificationRequest.keys.p256dh
     ) {
       return res.status(HTTP.UNPROCESSABLE_ENTITY).send('Malformed Notification Object');
+    }
+
+    if (!isPushServiceEndpoint(notificationRequest.endpoint)) {
+      return res.status(HTTP.BAD_REQUEST).send('Invalid data: endpoint must be the URL of a browser push service');
     }
 
     this.notificationService.addSubscription(notificationRequest, req.headers.referer);

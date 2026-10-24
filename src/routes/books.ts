@@ -162,6 +162,10 @@ export class BooksRoute {
       return res.status(HTTP.CONFLICT).send('Book does already exist');
     }
 
+    if (this.store.isFull()) {
+      return res.status(HTTP.BAD_REQUEST).send('Too many books: please reset the book list (DELETE /books)');
+    }
+
     const book = BookFactory.fromJson(bookJson);
     this.store.create(book);
 

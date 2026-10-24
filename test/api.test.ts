@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import type { AddressInfo } from 'node:net';
 import type { Server } from 'node:http';
 
+import { MAX_BOOKS } from '../src/books-store.ts';
+import { isPushServiceEndpoint } from '../src/notification-service.ts';
 import { createApp } from '../src/server.ts';
 
 let server: Server;
@@ -21,7 +23,7 @@ const json = (method: string, path: string, body: unknown, headers = {}) =>
   fetch(base + path, { method, headers: { 'content-type': 'application/json', ...headers }, body: JSON.stringify(body) });
 
 test('lists public books, secure books only with the token', async () => {
-  const books = await (await fetch(`${base}/books`)).json();
+  const books: { isbn: string; title: string }[] = await (await fetch(`${base}/books`)).json();
   assert.equal(books[0].isbn, '9783864909467');
   assert.ok(books.every(b => !b.title.startsWith('[SECURE]')));
 
@@ -50,6 +52,34 @@ test('searches case insensitive', async () => {
 
 test('rejects malformed notification subscriptions', async () => {
   assert.equal((await json('POST', '/notifications', { endpoint: 'x' })).status, 422);
+});
+
+test('accepts only browser push services as notification endpoints', async () => {
+  const keys = { auth: 'a', p256dh: 'b' };
+  for (const endpoint of ['http://fcm.googleapis.com/fcm/send/x', 'https://example.org/push', 'https://169.254.169.254/', 'https://fcm.googleapis.com.evil.org/x']) {
+    assert.equal((await json('POST', '/notifications', { endpoint, keys })).status, 400, endpoint);
+  }
+});
+
+test('push service endpoints', () => {
+  assert.ok(isPushServiceEndpoint('https://fcm.googleapis.com/fcm/send/abc'));
+  assert.ok(isPushServiceEndpoint('https://updates.push.services.mozilla.com/wpush/v2/abc'));
+  assert.ok(isPushServiceEndpoint('https://web.push.apple.com/abc'));
+  assert.ok(isPushServiceEndpoint('https://db5p.notify.windows.com/w/?token=abc'));
+  assert.ok(!isPushServiceEndpoint('https://evilpush.apple.com.example.org/'));
+  assert.ok(!isPushServiceEndpoint('not a url'));
+});
+
+test('refuses new books when the store is full', async () => {
+  const { length } = await (await fetch(`${base}/books`, { headers: AUTH })).json();
+  for (let i = length; i < MAX_BOOKS; i++) {
+    assert.equal((await json('POST', '/books', { isbn: String(1_000_000 + i), title: 'x' })).status, 201);
+  }
+  assert.equal((await json('POST', '/books', { isbn: '42', title: 'x' })).status, 400);
+
+  await fetch(`${base}/books`, { method: 'DELETE' });
+  assert.equal((await json('POST', '/books', { isbn: '42', title: 'x' })).status, 201);
+  await fetch(`${base}/books/42`, { method: 'DELETE' });
 });
 
 test('serves start page and Swagger UI', async () => {

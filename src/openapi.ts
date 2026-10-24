@@ -28,16 +28,16 @@ export interface OperationDoc {
   security?: Record<string, string[]>[];
 }
 
-/**
- * Collects the documented operations while the routes are registered, so that routes and
- * OpenAPI paths are always the same.
- */
 export interface DocumentInfo {
   info: { version: string; title: string; description: string };
   tags: { name: string; description: string }[];
   securitySchemes: Record<string, unknown>;
 }
 
+/**
+ * Collects the documented operations while the routes are registered, so that routes and
+ * OpenAPI paths are always the same.
+ */
 export class OpenApiDocument {
   private paths: Record<string, Partial<Record<Method, OperationDoc>>> = {};
   private documentInfo: DocumentInfo;

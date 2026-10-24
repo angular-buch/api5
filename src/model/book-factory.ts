@@ -35,7 +35,6 @@ export class BookFactory {
 
     if (this.validString(json.published) &&
         this.validDate(json.published)) {
-      // book.published = BookFactory.normalizeDate(json.published);
       book.published = json.published;
     }
 
@@ -59,10 +58,6 @@ export class BookFactory {
     return i.replace(/[^0-9]/g, '');
   }
 
-  public static normalizeDate(date: string): string {
-    return new Date(date).toISOString();
-  }
-
   private static validString(str: string) {
     return str === '' || (str && typeof str == 'string');
   }
@@ -74,14 +69,4 @@ export class BookFactory {
   private static validArray(arr: string) {
     return arr && Array.isArray(arr) && arr.length
   }
-
-  private static validObject(obj) {
-    return obj && typeof obj == 'object';
-  }
-
-  private static validNumber(no: string) {
-    return no && typeof no == 'number';
-  }
 }
-
-
