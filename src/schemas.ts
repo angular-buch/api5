@@ -26,17 +26,6 @@ export const BookSchema = z.object({
   thumbnailUrl: z.string().optional().meta({ description: 'Thumbnail Image URL of the book' })
 }).meta({ description: 'The main entity of this API' });
 
-export const KeysSchema = z.object({
-  auth: z.string().meta({
-    example: 'hsHpa-Fy-wL3IGTfzOuvYw',
-    description: 'The auth value is used to retrieve the authentication secret described in RFC8291 (https://tools.ietf.org/html/rfc8291)'
-  }),
-  p256dh: z.string().meta({
-    example: 'BGu9emiaZez5yWSx66VZLVPmYPtGd4FQG9hxoRcaGJ7qDhEwINS3AvbAWn_brMF08ErsqROyClWXsGCNMPY6PJo',
-    description: 'The p256dh value is used to retrieve the P-256 ECDH Diffie-Hellman public key described in RFC8291 (https://tools.ietf.org/html/rfc8291)'
-  })
-}).meta({ description: 'An Object which contains neccessary keys (PushEncryptionKeyName), see https://www.w3.org/TR/push-api/#dom-pushsubscriptionjson-keys' });
-
 export const NotificationSchema = z.object({
   endpoint: z.string().meta({
     example: 'https://fcm.googleapis.com/fcm/send/cd8hmcY5ais:APA91bFWhjIBUCcArB8u95YUN-BkEvj8NA52BcvzDeeilQL5wB1RwWy-ki_ZDONyL8jPjsGBHM-efuEqj5KDLfUwQRtIMjLx-2L5RwS45_oESHtaJr9k-WxfHr_jJEnX-Qt8McNhw1dN',
@@ -59,5 +48,4 @@ export const RestErrorSchema = z.string().meta({ description: 'simple string des
 
 schemas.add(BookSchema, { id: 'Book' });
 schemas.add(NotificationSchema, { id: 'Notification' });
-schemas.add(KeysSchema, { id: 'Keys' });
 schemas.add(RestErrorSchema, { id: 'RestError' });
