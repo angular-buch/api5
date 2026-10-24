@@ -1,4 +1,6 @@
-export function fakeBearerMiddleware(req, res, next) {
+import type { NextFunction, Request, Response } from 'express';
+
+export function fakeBearerMiddleware(req: Request, res: Response, next: NextFunction) {
   const authToken = '1234567890';
 
   if (req.headers.authorization === `Bearer ${authToken}`) {
@@ -9,4 +11,3 @@ export function fakeBearerMiddleware(req, res, next) {
 
   next();
 };
-

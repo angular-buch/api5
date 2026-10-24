@@ -26,12 +26,25 @@ npm start
 ```
 
 Open __http://localhost:3000/__ in your browser.
+All data lives in memory: a restart (or `DELETE /books`) brings back the initial book list.
+
+Node.js 24 runs the TypeScript sources directly, there is no build step.
+For development with automatic restart on changes, use `npm run start:dev`.
 
 
-## Updating deps
+## OpenAPI
 
-Please take care of the file `package.prod.json`.
-Keep it in sync with you development `package.json`.
+The specification at [/swagger.json](https://api5.angular-buch.com/swagger.json) is generated from the code: every route is registered together with its documentation (`src/openapi.ts`), the models are zod schemas (`src/schemas.ts`). The schemas only describe the API, requests are not validated against them.
+
+
+## Checks
+
+```
+npm run typecheck
+npm test
+```
+
+Pushes to `main` run these checks and publish the sources to `book-monkey5/api5-build`, from where Koyeb deploys the server.
 
 # License
 

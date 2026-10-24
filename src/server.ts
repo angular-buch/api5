@@ -1,155 +1,101 @@
-import * as bodyParser from 'body-parser';
-import * as cors from 'cors';
-import * as express from 'express';
-import * as logger from 'morgan';
-import * as path from 'path';
-import * as swaggerUi from 'swagger-ui-express';
-import errorHandler = require('errorhandler');
-const fs = require('fs');
+import cors from 'cors';
+import express from 'express';
+import type { NextFunction, Request, Response } from 'express';
+import logger from 'morgan';
+import swaggerUi from 'swagger-ui-express';
 
-import { IndexRoute } from './routes/index';
-import { BooksStore } from './books-store';
-import { BooksRoute } from './routes/books';
-import { NotificationsRoute } from './routes/notifications';
-import { fakeBearerMiddleware } from './fake-bearer-middleware';
-import { NotificationService } from './notification-service';
+import { BooksStore } from './books-store.ts';
+import { fakeBearerMiddleware } from './fake-bearer-middleware.ts';
+import { NotificationService } from './notification-service.ts';
+import { OpenApiDocument } from './openapi.ts';
+import { PUBLIC_DIR } from './paths.ts';
+import { BooksRoute } from './routes/books.ts';
+import { IndexRoute } from './routes/index.ts';
+import { NotificationsRoute } from './routes/notifications.ts';
 
+const API_URL = 'https://api5.angular-buch.com';
 
-/**
- * The server.
- *
- * @class Server
- */
-export class Server {
+export function createApp(): express.Express {
+  const app = express();
 
-  public app: express.Application;
+  // indentation on json content
+  app.set('json spaces', 2);
 
-  /**
-   * Bootstrap the application.
-   *
-   * @class Server
-   * @method bootstrap
-   * @static
-   * @return {ng.auto.IInjectorService} Returns the newly created injector for this app.
-   */
-  public static bootstrap(): Server {
-    return new Server();
-  }
-
-  /**
-   * Constructor.
-   *
-   * @class Server
-   * @constructor
-   */
-  constructor() {
-    //create expressjs application
-    this.app = express();
-
-    //configure application
-    this.config();
-
-    //add routes
-    this.routes();
-  }
-
-  /**
-   * Configure application
-   *
-   * @class Server
-   * @method config
-   */
-  public config() {
-    //add static paths
-    this.app.use(express.static(path.join(__dirname, "public")));
-
-    //configure pug
-    this.app.set("views", path.join(__dirname, "views"));
-    this.app.set("view engine", "pug");
-
-    //mount logger
-    this.app.use(logger("dev"));
-
-    //cors configuration
-    this.app.use(cors({
-      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS']
-    }));
-
-    //mount json form parser
-    this.app.use(bodyParser.json());
-
-    //mount query string parser
-    this.app.use(bodyParser.urlencoded({
-      extended: true
-    }));
-
-    // catch 404 and forward to error handler
-    this.app.use(function (err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-      err.status = 404;
-      next(err);
-    });
-
-    //error handling
-    this.app.use(errorHandler());
-
-    let swaggerJson = {
-      schemes: ''
+  app.use(express.static(PUBLIC_DIR, {
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith('.ico')) {
+        res.setHeader('Content-Type', 'image/x-icon');
+      }
     }
+  }));
 
-    // when serving from dist
-    if (fs.existsSync('../public/swagger.json')) {
-      swaggerJson = require('../public/swagger.json')
+  app.use(logger('dev'));
+
+  app.use(cors({
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS']
+  }));
+
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  // handlers read fields from req.body, also for requests without a body
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    req.body ??= {};
+    next();
+  });
+
+  // Errors of the middlewares above (e.g. a malformed JSON body) are answered with 404.
+  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    res.status(404).type('text/plain').send(`${err.name}: ${err.message}`);
+  });
+
+  const doc = new OpenApiDocument({
+    info: {
+      version: '0.1.0',
+      title: 'BookMonkey 5 API',
+      description: '**DEMO**\n\nThis is a demo backend for serving books. All data is erased after some inactivity.'
+    },
+    tags: [
+      { name: 'books', description: 'BookMonkey 5 books' },
+      { name: 'notifications', description: 'Subscribe to BookMonkey Notifications' }
+    ],
+    securitySchemes: {
+      ApiKeyAuth: {
+        type: 'apiKey',
+        in: 'header',
+        name: 'Authorization',
+        description: '**Use `Bearer 1234567890` as value!**'
+      }
     }
+  });
 
-    // when serving via watch
-    if (fs.existsSync('./public/swagger.json')) {
-        swaggerJson = require('./public/swagger.json')
-    }
+  const store = new BooksStore();
+  const notificationService = new NotificationService();
 
-    if (this.app.get('env') === 'development') {
-      swaggerJson.schemes = 'http'; // fixes JSON schema for localhost
-    }
+  const booksRouter = express.Router();
+  BooksRoute.create(booksRouter, store, notificationService, doc);
 
-    const options = {
-      explorer: false, // show explorer
-      customCss: `.swagger-ui .information-container {
+  const notificationsRouter = express.Router();
+  NotificationsRoute.create(notificationsRouter, notificationService, doc);
+
+  const router = express.Router();
+  IndexRoute.create(router, doc);
+
+  const development = app.get('env') === 'development';
+  const openApi = doc.toJSON(development ? ['http://localhost:3000', API_URL] : [API_URL]);
+
+  app.get('/swagger.json', (req, res) => res.json(openApi));
+  app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(openApi, {
+    explorer: false,
+    customCss: `.swagger-ui .information-container {
         background: url(/images/monkey-thinking.svg) no-repeat scroll right top;
         background-size: contain;
       }`
-    }
+  }));
 
-    this.app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(
-      swaggerJson,
-      options
-    ));
-  }
+  app.use('/book', fakeBearerMiddleware, booksRouter);
+  app.use('/books', fakeBearerMiddleware, booksRouter);
+  app.use('/notifications', notificationsRouter);
+  app.use(router);
 
-  /**
-   * Create and return Router.
-   *
-   * @class Server
-   * @method config
-   * @return void
-   */
-  private routes() {
-
-    const store = new BooksStore();
-    const notificationService = new NotificationService();
-
-    const booksRouter = express.Router();
-    BooksRoute.create(booksRouter, store, notificationService)
-
-    const notificationsRouter = express.Router();
-    NotificationsRoute.create(notificationsRouter, notificationService)
-
-    const router = express.Router();
-    IndexRoute.create(router);
-
-
-    // use router middleware
-    this.app.use('/book', fakeBearerMiddleware, booksRouter);
-    this.app.use('/books', fakeBearerMiddleware, booksRouter);
-    this.app.use('/notifications', notificationsRouter);
-    this.app.use(router);
-  }
+  return app;
 }

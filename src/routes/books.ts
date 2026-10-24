@@ -1,56 +1,130 @@
-import { NextFunction, Request, Response, Router } from 'express';
-import * as _ from 'lodash';
+import type { Request as ExpressRequest, Response, Router } from 'express';
 
-import { BookFactory, PLACEHOLDER_IMG_URL } from '../model/book-factory';
-import { BooksStore } from '../books-store';
-import { HTTP } from './http';
-import { NotificationService } from '../notification-service';
+import { BookFactory, PLACEHOLDER_IMG_URL } from '../model/book-factory.ts';
+import { BooksStore } from '../books-store.ts';
+import { HTTP } from './http-status.ts';
+import { NotificationService } from '../notification-service.ts';
+import { OpenApiDocument } from '../openapi.ts';
+import { BookSchema, RestErrorSchema } from '../schemas.ts';
+
+type Request = ExpressRequest<Record<string, string>>;
 
 const ISBN_CHECK_DELAY = 2_000;
 
+const BOOKS = { title: 'Books', arrayOf: BookSchema };
+const ERROR_500 = { description: 'Unexpected Internal Server Error', schema: RestErrorSchema };
+const ISBN_PARAM = { name: 'isbn', type: 'string', description: 'ISBN of the book' } as const;
+
 export class BooksRoute {
 
-  public static create(router: Router, bookStore: BooksStore, notificationService: NotificationService) {
+  public static create(router: Router, bookStore: BooksStore, notificationService: NotificationService, doc: OpenApiDocument) {
 
     const booksRoute = new BooksRoute(bookStore, notificationService);
-    const methodsToBind = [
-      'getAll', 'getAllBySearch', 'reset', 'create',
-      'getByISBN', 'checkISBN', 'update', 'delete']
-    _.bindAll(booksRoute, methodsToBind);
+    const route = doc.route.bind(doc, router, '/books');
 
-    router.get('/', booksRoute.getAll);
-    router.get('/search/:search', booksRoute.getAllBySearch);
-    router.delete('/', booksRoute.reset);
-    router.post('/', booksRoute.create);
-    router.get('/:isbn', booksRoute.getByISBN);
-    router.get('/:isbn/check', booksRoute.checkISBN);
-    router.put('/:isbn', booksRoute.update);
-    router.delete('/:isbn', booksRoute.delete);
+    route('get', '', {
+      tags: ['books'],
+      summary: 'Get all books',
+      responses: { 200: { description: 'List of all books', schema: BOOKS }, 500: ERROR_500 },
+      security: [{ ApiKeyAuth: [] }]
+    }, (req, res) => booksRoute.getAll(req, res));
+
+    route('get', '/search/{searchTerm}', {
+      tags: ['books'],
+      summary: 'Get all books matching the given search term (case insensitive). The properties isbn, title, authors, published, subtitle and description are evaluated for a match.',
+      parameters: [{ name: 'searchTerm', type: 'string', description: 'search term (treated case insensitive)' }],
+      responses: { 200: { description: 'List of all books matching the give search term', schema: BOOKS }, 500: ERROR_500 }
+    }, (req, res) => booksRoute.getAllBySearch(req, res));
+
+    route('delete', '', {
+      tags: ['books'],
+      summary: 'Reset store to initial state',
+      responses: { 200: { description: 'All data is now on initial state' }, 500: ERROR_500 }
+    }, (req, res) => booksRoute.reset(req, res));
+
+    route('post', '', {
+      tags: ['books'],
+      summary: 'Create a new book',
+      requestBody: { name: 'book', description: 'A new book to be stored', schema: BookSchema },
+      responses: {
+        201: { description: 'Book was created', schema: BookSchema },
+        400: { description: 'Invalid data', schema: RestErrorSchema },
+        409: { description: 'Book does already exist', schema: RestErrorSchema },
+        500: ERROR_500
+      }
+    }, (req, res) => booksRoute.create(req, res));
+
+    route('get', '/{isbn}', {
+      tags: ['books'],
+      summary: 'Return a single book by ISBN',
+      parameters: [ISBN_PARAM],
+      responses: {
+        200: { description: 'Returns the book with the requested ISBN', schema: BookSchema },
+        404: { description: 'Book does not exist', schema: RestErrorSchema },
+        500: ERROR_500
+      }
+    }, (req, res) => booksRoute.getByISBN(req, res));
+
+    route('get', '/{isbn}/check', {
+      tags: ['books'],
+      summary: 'Return whether ISBN exists or not',
+      description: 'This endpoint returns wether a book exists or not after an artificial delay of 2 seconds.',
+      parameters: [ISBN_PARAM],
+      responses: {
+        200: { description: 'Returns whether the ISBN exists in the database or not (boolean)' },
+        500: ERROR_500
+      }
+    }, (req, res) => booksRoute.checkISBN(req, res));
+
+    route('put', '/{isbn}', {
+      tags: ['books'],
+      summary: 'Update an existing book',
+      description: 'Requires a full book entry, ISBN in query and body must match',
+      parameters: [{ ...ISBN_PARAM, description: 'ISBN of the book to update' }],
+      requestBody: { name: 'book', description: 'An existing book to update', schema: BookSchema },
+      responses: {
+        200: { description: 'Book was updated', schema: BookSchema },
+        400: { description: 'Invalid data', schema: RestErrorSchema },
+        404: { description: 'Book does not exist', schema: RestErrorSchema },
+        500: ERROR_500
+      }
+    }, (req, res) => booksRoute.update(req, res));
+
+    route('delete', '/{isbn}', {
+      tags: ['books'],
+      summary: 'Delete a book',
+      parameters: [{ ...ISBN_PARAM, description: 'ISBN of the book to delete' }],
+      responses: {
+        200: { description: 'Book was deleted or does not exist' },
+        500: ERROR_500
+      }
+    }, (req, res) => booksRoute.delete(req, res));
   }
 
-  constructor(
-    private store: BooksStore,
-    private notificationService: NotificationService
-  ) {  }
+  private store: BooksStore;
+  private notificationService: NotificationService;
+
+  constructor(store: BooksStore, notificationService: NotificationService) {
+    this.store = store;
+    this.notificationService = notificationService;
+  }
 
   // GET /books
-  getAll(req: Request, res: Response, next: NextFunction) {
+  getAll(req: Request, res: Response) {
     this.store.setSecure(res.locals.authorized);
 
     res.json(this.store.getAll());
-    next();
   };
 
-  getAllBySearch(req: Request, res: Response, next: NextFunction) {
+  getAllBySearch(req: Request, res: Response) {
     this.store.setSecure(res.locals.authorized);
 
-    const searchTerm = req.params.search;
+    const searchTerm = req.params.searchTerm;
 
     res.json(this.store.getAllBySearch(searchTerm));
-    next();
   };
 
-  getByISBN(req: Request, res: Response, next: NextFunction) {
+  getByISBN(req: Request, res: Response) {
     this.store.setSecure(res.locals.authorized);
 
     const isbn = req.params.isbn;
@@ -61,10 +135,9 @@ export class BooksRoute {
     }
 
     res.json(book);
-    next();
   };
 
-  checkISBN(req: Request, res: Response, next: NextFunction) {
+  checkISBN(req: Request, res: Response) {
     this.store.setSecure(res.locals.authorized);
 
     const isbn = req.params.isbn;
@@ -72,11 +145,10 @@ export class BooksRoute {
 
     setTimeout(() => {
       res.json(bookExist);
-      next();
     }, ISBN_CHECK_DELAY);
   };
 
-  create(req: Request, res: Response, next: NextFunction) {
+  create(req: Request, res: Response) {
     this.store.setSecure(res.locals.authorized);
 
     const bookJson = req.body;
@@ -106,11 +178,9 @@ export class BooksRoute {
       };
       this.notificationService.notifySubscribers(notificationPayload);
     }
-
-    next();
   };
 
-  update(req: Request, res: Response, next: NextFunction) {
+  update(req: Request, res: Response) {
     this.store.setSecure(res.locals.authorized);
 
     const bookJson = req.body;
@@ -132,27 +202,21 @@ export class BooksRoute {
     this.store.update(book)
 
     res.status(HTTP.OK).json(book);
-    next();
   };
 
-  delete(req: Request, res: Response, next: NextFunction) {
+  delete(req: Request, res: Response) {
     this.store.setSecure(res.locals.authorized);
 
     const isbn = req.params.isbn;
     this.store.delete(isbn);
 
     res.status(HTTP.OK).json({ success: true });
-    next();
   };
 
-  reset(req: Request, res: Response, next: NextFunction) {
+  reset(req: Request, res: Response) {
 
     this.store.reset();
 
-    // reset() can be also called without params!
-    if (res && next) {
-      res.status(HTTP.OK).json({ success: true });
-      next();
-    }
+    res.status(HTTP.OK).json({ success: true });
   };
 }

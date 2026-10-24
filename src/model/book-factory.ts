@@ -1,4 +1,4 @@
-import { Book } from './book';
+import type { Book } from './book.ts';
 
 export const PLACEHOLDER_IMG_URL = 'https://cdn.ng-buch.de/cover/placeholder.png';
 

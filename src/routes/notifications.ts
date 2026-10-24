@@ -1,24 +1,41 @@
-import { NextFunction, Request, Response, Router } from "express";
-import { PushSubscription } from 'web-push';
-import * as _ from 'lodash';
+import type { Request, Response, Router } from 'express';
+import type { PushSubscription } from 'web-push';
 
-import { NotificationService } from "../notification-service";
-import { HTTP } from "./http";
+import { NotificationService } from '../notification-service.ts';
+import { OpenApiDocument } from '../openapi.ts';
+import { NotificationSchema, RestErrorSchema } from '../schemas.ts';
+import { HTTP } from './http-status.ts';
 
 export class NotificationsRoute {
 
-  public static create(router: Router, notificationService: NotificationService) {
+  public static create(router: Router, notificationService: NotificationService, doc: OpenApiDocument) {
 
     const notificationsRoute = new NotificationsRoute(notificationService);
-    const methodsToBind = ['requestSubscription']
-    _.bindAll(notificationsRoute, methodsToBind);
 
-    router.post('/', notificationsRoute.requestSubscription);
+    doc.route(router, '/notifications', 'post', '', {
+      tags: ['notifications'],
+      summary: 'Subscribe to notifications, you will receive notifications via web-push after you subscribed to them.',
+      requestBody: {
+        name: 'notification',
+        description: 'The Notification Object which contains the credentials for requesting to receive notifications',
+        schema: NotificationSchema
+      },
+      responses: {
+        200: { description: 'Successfully subscribed to receive notifications' },
+        400: { description: 'Invalid data', schema: RestErrorSchema },
+        422: { description: 'Malformed Data', schema: RestErrorSchema },
+        500: { description: 'Unexpected Internal Server Error', schema: RestErrorSchema }
+      }
+    }, (req, res) => notificationsRoute.requestSubscription(req, res));
   }
 
-  constructor(private notificationService: NotificationService) { }
+  private notificationService: NotificationService;
 
-  requestSubscription(req: Request, res: Response, next: NextFunction) {
+  constructor(notificationService: NotificationService) {
+    this.notificationService = notificationService;
+  }
+
+  requestSubscription(req: Request, res: Response) {
     const notificationRequest: PushSubscription = req.body;
 
     if (!notificationRequest) {
@@ -44,7 +61,5 @@ export class NotificationsRoute {
     };
 
     this.notificationService.notify(notificationPayload, notificationRequest);
-
-    next();
   };
 }

@@ -1,4 +1,4 @@
-﻿import { Book } from './book'
+import type { Book } from './book.ts';
 
 export type BookWithSecureInfo = Book & { secure: boolean };
 

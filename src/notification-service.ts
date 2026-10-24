@@ -1,13 +1,22 @@
-import * as _ from 'lodash';
-import { WebPushError, PushSubscription, sendNotification, setVapidDetails } from 'web-push';
-import vapidKeys from './vapid-keys';
+import webpush from 'web-push';
+import type { PushSubscription, WebPushError } from 'web-push';
+
+import vapidKeys from './vapid-keys.ts';
+
+export interface NotificationPayload {
+  title?: string;
+  body?: string;
+  icon?: string;
+  vibrate?: number[];
+  data?: any;
+}
 
 export class NotificationService {
   private subscriptions: PushSubscription[] = [];
   private subscriptionOriginMap = new Map();
 
   constructor() {
-    setVapidDetails(
+    webpush.setVapidDetails(
       'mailto:team@angular-buch.com',
       vapidKeys.publicKey,
       vapidKeys.privateKey
@@ -16,7 +25,7 @@ export class NotificationService {
 
   addSubscription(subscription: PushSubscription, origin: string) {
     this.subscriptions.push(subscription);
-    this.subscriptions = _.uniq(this.subscriptions); // remove possible duplicate subscriptions
+    this.subscriptions = [...new Set(this.subscriptions)]; // remove possible duplicate subscriptions
     this.subscriptionOriginMap.set(subscription.endpoint, origin) // store subscriber's origin info for this endpoint. We need this to create URLs for the client app.
   }
 
@@ -24,7 +33,7 @@ export class NotificationService {
     return this.subscriptions.length > 0;
   }
 
-  notifySubscribers(payload: NotificationOptions) {
+  notifySubscribers(payload: NotificationPayload) {
     this.subscriptions.forEach(sub => {
       const origin = this.subscriptionOriginMap.get(sub.endpoint);
       const notificationPayload = { ...payload };
@@ -46,8 +55,8 @@ export class NotificationService {
     });
   }
 
-  notify(notification: NotificationOptions, subscription: PushSubscription) {
-    sendNotification(subscription, JSON.stringify({ notification }))
+  notify(notification: NotificationPayload, subscription: PushSubscription) {
+    webpush.sendNotification(subscription, JSON.stringify({ notification }))
       .catch((error: WebPushError) => console.error(error));
   }
 }

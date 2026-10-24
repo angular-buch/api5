@@ -1,8 +1,12 @@
-import * as _ from 'lodash';
+import type { Book } from './model/book.ts';
+import { BookFactory } from './model/book-factory.ts';
+import { SomeBooks } from './model/some-books.ts';
+import type { BookWithSecureInfo } from './model/some-books.ts';
 
-import { Book } from './model/book';
-import { BookFactory } from './model/book-factory';
-import { SomeBooks, BookWithSecureInfo } from './model/some-books';
+// "Angular 4. Auflage" should always be on top, all other books are sorted by title
+function sortKey(book: Book): string {
+  return book.isbn === '9783864909467' ? '00000000' : book.title;
+}
 
 export class BooksStore {
 
@@ -26,11 +30,11 @@ export class BooksStore {
   }
 
   private sortBooks<T extends Book>(books: T[]): T[] {
-    return _(books).sortBy(b => {
-      // "Angular 4. Auflage" should always be on top
-      if (b.isbn === '9783864909467') { return '00000000'; }
-      return b.title;
-    }).value()
+    return [...books].sort((a, b) => {
+      const keyA = sortKey(a);
+      const keyB = sortKey(b);
+      return keyA < keyB ? -1 : keyA > keyB ? 1 : 0;
+    });
   }
 
   private addSecureTitle(books: BookWithSecureInfo[]): BookWithSecureInfo[] {
@@ -72,7 +76,7 @@ export class BooksStore {
         !!(
           containsSearchTerm(b.isbn) ||
           containsSearchTerm(b.title) ||
-          _.some(b.authors, containsSearchTerm) ||
+          b.authors.some(containsSearchTerm) ||
           containsSearchTerm(b.published) ||
           containsSearchTerm(b.subtitle) ||
           containsSearchTerm(b.description))
@@ -89,10 +93,7 @@ export class BooksStore {
   }
 
   getAllAuthors(): string[] {
-    return _(this.books)
-      .flatMap(b => b.authors)
-      .uniq()
-      .value()
+    return [...new Set(this.books.flatMap(b => b.authors))];
   }
 
   isbnExists(isbn: string): boolean {

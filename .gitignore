@@ -1,8 +1,2 @@
-.tscache
-.baseDir.ts
-dist
 node_modules
-tscommand-*.tmp.txt
-/.DS_Store
-/public/.DS_Store
-/.angulardoc.json
+.DS_Store
